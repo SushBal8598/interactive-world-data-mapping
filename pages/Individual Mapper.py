@@ -5,6 +5,12 @@ import seaborn as sns
 import geopandas as gpd
 import pandas as pd
 
+from streamlit_gsheets import GSheetsConnection
+
+import gspread
+from oauth2client.service_account import ServiceAccountCredentials
+import streamlit as st
+
 st.markdown("<h1 style='text-align: center; color: black;'>Individual Country Mapper</h1>", unsafe_allow_html=True)
 st.markdown("<h5 style='text-align: center; color: black;'>Explore top-down overviews of specific countries.</h1>", unsafe_allow_html=True)
 
@@ -52,6 +58,31 @@ if option != 'Placeholder':
         get_name = bynames[option]
         country_byname = f"""<h4 style='text-align: center; color: black;'><em>{get_name}</em></h4>"""
         st.markdown(country_byname, unsafe_allow_html=True)
+
+        scope = ["https://spreadsheets.google.com/feeds", "https://www.googleapis.com/auth/drive"]
+        creds = ServiceAccountCredentials.from_json_keyfile_dict(st.secrets["google_sheets_credentials"], scope)
+        client = gspread.authorize(creds)
+
+        # Open the spreadsheet by its ID
+        spreadsheet = client.open_by_key(st.secrets["google_sheets"]["spreadsheet_id"])
+
+
+        # Read data from the specific worksheet
+        worksheet = spreadsheet.worksheet(option)
+        data = worksheet.get_all_values()
+
+        # Convert the data into a DataFrame if needed
+        import pandas as pd
+        #df = pd.DataFrame(data)
+        df = pd.DataFrame(data, columns = ['Country Name','Country Code','Indicator Name','Indicator Code',	'1960',
+        '1961',	'1962','1963',	'1964', '1965','1966','1967','1968','1969','1970','1971','1972','1973','1974',
+        '1975',	'1976',	'1977','1978','1979','1980','1981','1982','1983','1984','1985', '1986',	'1987',	'1988',	
+        '1989',	'1990',	'1991',	'1992',	'1993',	'1994',	'1995',	'1996',	'1997',	'1998',	'1999',	'2000',	'2001',	'2002',	
+        '2003',	'2004',	'2005',	'2006',	'2007',	'2008',	'2009',	'2010',	'2011',	'2012',	'2013',	'2014',	'2015',	'2016',	
+        '2017',	'2018','2019','2020','2021','2022','2023'])
+
+        st.write(df)  # Display the data in the Streamlit app
+        st.write(df.columns)
 
 else: 
     st.success('Select a country above to proceed.')

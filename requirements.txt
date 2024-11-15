@@ -5,3 +5,5 @@ matplotlib
 seaborn
 plotly
 fiona
+git+https://github.com/streamlit/gsheets-connection
+oauth2client
