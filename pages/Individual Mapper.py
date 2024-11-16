@@ -254,6 +254,8 @@ if option != 'Placeholder':
             
             st.markdown(poverty_html, unsafe_allow_html=True)  
 
+        col1 = st.columns(1)[0]
+        slider_value = st.slider(label='', min_value=1960, max_value=2023, value=2023)
 
 
             #tackle Venezuela, RB issue tmrw
