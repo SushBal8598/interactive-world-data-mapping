@@ -362,6 +362,11 @@ if option != 'Placeholder':
     with col2:
         st.markdown("<h6 style='text-align: center; color: black;'>What statistics are available to me?</h6>", unsafe_allow_html=True)
 
+        with st.container(height = 120):
+            for element in all_indicators:
+                st.write(element)
+
+
     with col3:
         st.markdown("<h6 style='text-align: center; color: black;'>What statistics am I plotting?</h6>", unsafe_allow_html=True)
         #st.write(all_indicators) indicates that all statistics are present.
