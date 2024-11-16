@@ -20,6 +20,29 @@ from time import sleep
 
 #Get statistics for all the indicators
 
+scope = ["https://spreadsheets.google.com/feeds", "https://www.googleapis.com/auth/drive"]
+creds = ServiceAccountCredentials.from_json_keyfile_dict(st.secrets["google_sheets_credentials"], scope)
+client = gspread.authorize(creds)
+
+#Open the spreadsheet by its ID
+spreadsheet = client.open_by_key(st.secrets["google_sheets"]["spreadsheet_id"])
+
+
+# Read data from the specific worksheet
+worksheet = spreadsheet.worksheet('IndicatorNames')
+data = worksheet.get_all_values()
+
+# Convert the data into a DataFrame if needed
+#df = pd.DataFrame(data)
+df = pd.DataFrame(data, columns = ['Indicator Name'])
+df = df.reset_index()
+
+all_indicators = []
+
+for index, row in df.iterrows():
+    all_indicators.append(row['Indicator Name'])
+
+all_indicators = all_indicators[1:] #remove the first row
 
 st.markdown("<h1 style='text-align: center; color: black;'>Individual Country Mapper</h1>", unsafe_allow_html=True)
 st.markdown("<h5 style='text-align: center; color: black;'>Explore top-down overviews of specific countries.</h1>", unsafe_allow_html=True)
@@ -341,6 +364,6 @@ if option != 'Placeholder':
 
     with col3:
         st.markdown("<h6 style='text-align: center; color: black;'>What statistics am I plotting?</h6>", unsafe_allow_html=True)
-
+        #st.write(all_indicators) indicates that all statistics are present.
 else: 
     st.success('Select a country above to proceed.')
