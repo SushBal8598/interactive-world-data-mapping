@@ -35,6 +35,23 @@ option = st.selectbox(
 if option != 'Placeholder':
     col1, col2, col3 , col4, col5 = st.columns(5)
 
+    html_str = f"""<h2 style='text-align: center; color: black;'>{option}</h2>"""
+    st.markdown(html_str, unsafe_allow_html=True)
+
+    #italicize country name
+    get_name = bynames[option]
+    country_byname = f"""<h4 style='text-align: center; color: black;'><em>{get_name}</em></h4>"""
+    
+    st.markdown("""
+    <style>
+    [data-testid=column]:nth-of-type(1) [data-testid=stVerticalBlock]{
+        gap: 0rem;
+    }
+    </style>
+    """,unsafe_allow_html=True)
+
+    st.markdown(country_byname, unsafe_allow_html=True)
+
     st.markdown(
     """
     <style>
@@ -47,17 +64,10 @@ if option != 'Placeholder':
     """, 
     unsafe_allow_html=True
 )
-    columns = st.columns((2, 1, 2))
+    columns = st.columns((1, 1, 1))
     button_pressed = columns[1].button('Generate insights!')
 
     if button_pressed:
-        html_str = f"""<h2 style='text-align: center; color: black;'>{option}</h2>"""
-        st.markdown(html_str, unsafe_allow_html=True)
-
-        #italicize country name
-        get_name = bynames[option]
-        country_byname = f"""<h4 style='text-align: center; color: black;'><em>{get_name}</em></h4>"""
-        st.markdown(country_byname, unsafe_allow_html=True)
 
         scope = ["https://spreadsheets.google.com/feeds", "https://www.googleapis.com/auth/drive"]
         creds = ServiceAccountCredentials.from_json_keyfile_dict(st.secrets["google_sheets_credentials"], scope)
