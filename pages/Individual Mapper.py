@@ -340,7 +340,48 @@ if option != 'Placeholder':
     #st.write(df)  # Display the data in the Streamlit app
     #st.write(df.columns)
 
-    col1, col2, col3 = st.columns(3)
+    col1, col2 = st.columns(2)
+
+    with col1:
+        st.markdown("""
+            <style>
+                .custom-button {
+                    display: inline-block;
+                    background-color: #FFFFFF;
+                    color: black;
+                    text-align: center;
+                    padding: 10px 20px;
+                    margin: 5px;
+                    border-radius: 5px;
+                    width: auto;
+                    font-size: 14px;
+                    max-width: 400px;
+                    white-space: normal;
+                    word-wrap: break-word;
+                }
+                .custom-container {
+                    margin-bottom: 20px;
+                }
+            </style>
+        """, unsafe_allow_html=True)
+
+# Header for the section
+        st.markdown("<h6 style='text-align: center; color: black;'>What statistics are available to you?</h6>", unsafe_allow_html=True)
+
+        with st.container(height = 120):
+            for element in all_indicators:
+                button_html = f'<button class="custom-button">{element}</button>'
+                st.markdown(button_html, unsafe_allow_html=True)
+        
+    with col2:
+        st.markdown("<h6 style='text-align: center; color: black;'>What does each statistic mean?</h6>", unsafe_allow_html=True)
+        #st.write(all_indicators) indicates that all statistics are present.        
+
+    st.write()
+    st.write()
+    st.write()
+
+    col1, col2 = st.columns(2)
 
     with col1:
         option_mapping = st.selectbox(
@@ -358,17 +399,6 @@ if option != 'Placeholder':
         "Select a plot to graph against.",
         ("Scatterplot", "Lineplot", 'Boxplot', 'Bubble Chart'),
 )
-        
-    with col2:
-        st.markdown("<h6 style='text-align: center; color: black;'>What statistics are available to me?</h6>", unsafe_allow_html=True)
 
-        with st.container(height = 120):
-            for element in all_indicators:
-                st.write(element)
-
-
-    with col3:
-        st.markdown("<h6 style='text-align: center; color: black;'>What statistics am I plotting?</h6>", unsafe_allow_html=True)
-        #st.write(all_indicators) indicates that all statistics are present.
 else: 
     st.success('Select a country above to proceed.')
