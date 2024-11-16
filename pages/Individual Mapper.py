@@ -16,6 +16,9 @@ import html
 
 #streamlit run streamlit_app.py
 
+#Get statistics for all the indicators
+
+
 st.markdown("<h1 style='text-align: center; color: black;'>Individual Country Mapper</h1>", unsafe_allow_html=True)
 st.markdown("<h5 style='text-align: center; color: black;'>Explore top-down overviews of specific countries.</h1>", unsafe_allow_html=True)
 
@@ -213,10 +216,12 @@ if option != 'Placeholder':
 
         try:
             per_capita = (float(capita_data.at[capita_index, my_year]))
+            escape_str = str((f'${per_capita:.2f}'))
         except:
             per_capita = '--.--'
+            escape_str = per_capita
 
-        capita_safe = html.escape(str((f'${per_capita:.2f}')))
+        capita_safe = html.escape(escape_str)
 
         capita_html = f'''
         <div style="background-color: #f0f0f0; padding: 4px 12px; border-radius: 10px; display: flex; justify-content: center; align-items: center; width: fit-content; margin: 0 auto; text-align: center;">
@@ -279,22 +284,23 @@ if option != 'Placeholder':
         st.session_state['slider_value'] = slider_value
         st.rerun()
 
+    st.markdown("<h5 style='text-align: center; color: black;'>Ready to start plotting?</h5>", unsafe_allow_html=True)
+
     #begin data extraction for mass analysis
 
-    scope = ["https://spreadsheets.google.com/feeds", "https://www.googleapis.com/auth/drive"]
-    creds = ServiceAccountCredentials.from_json_keyfile_dict(st.secrets["google_sheets_credentials"], scope)
-    client = gspread.authorize(creds)
+    #scope = ["https://spreadsheets.google.com/feeds", "https://www.googleapis.com/auth/drive"]
+    #creds = ServiceAccountCredentials.from_json_keyfile_dict(st.secrets["google_sheets_credentials"], scope)
+    #client = gspread.authorize(creds)
 
     # Open the spreadsheet by its ID
-    spreadsheet = client.open_by_key(st.secrets["google_sheets"]["spreadsheet_id"])
+    #spreadsheet = client.open_by_key(st.secrets["google_sheets"]["spreadsheet_id"])
 
 
     # Read data from the specific worksheet
-    worksheet = spreadsheet.worksheet(option)
-    data = worksheet.get_all_values()
+    #worksheet = spreadsheet.worksheet(option)
+    #data = worksheet.get_all_values()
 
     # Convert the data into a DataFrame if needed
-    import pandas as pd
     #df = pd.DataFrame(data)
     df = pd.DataFrame(data, columns = ['Country Name','Country Code','Indicator Name','Indicator Code',	'1960',
     '1961',	'1962','1963',	'1964', '1965','1966','1967','1968','1969','1970','1971','1972','1973','1974',
@@ -303,8 +309,33 @@ if option != 'Placeholder':
     '2003',	'2004',	'2005',	'2006',	'2007',	'2008',	'2009',	'2010',	'2011',	'2012',	'2013',	'2014',	'2015',	'2016',	
     '2017',	'2018','2019','2020','2021','2022','2023'])
 
-    st.write(df)  # Display the data in the Streamlit app
-    st.write(df.columns)
+    #st.write(df)  # Display the data in the Streamlit app
+    #st.write(df.columns)
+
+    col1, col2, col3 = st.columns(3)
+
+    with col1:
+        option_mapping = st.selectbox(
+        "Select a pre-loaded statistics set, or continue with custom.",
+        ("Poverty", "Custom"),
+)
+        
+        if option_mapping == 'Custom':
+            option_stats = st.selectbox(
+        "Select custom statistics to plot.",
+        ("Num1", "Num2"),
+)
+
+        option_library = st.selectbox(
+        "Select a plot to graph against.",
+        ("Scatterplot", "Lineplot", 'Boxplot', 'Bubble Chart'),
+)
+        
+    with col2:
+        st.markdown("<h6 style='text-align: center; color: black;'>What statistics are available to me?</h6>", unsafe_allow_html=True)
+
+    with col3:
+        st.markdown("<h6 style='text-align: center; color: black;'>What statistics am I plotting?</h6>", unsafe_allow_html=True)
 
 else: 
     st.success('Select a country above to proceed.')
