@@ -397,8 +397,8 @@ if option != 'Placeholder':
                 st.success('Input an indicator name for more details.')
             else:
                 curr_element = (df_indic.loc[df_indic['Indicator Name'] == options[0]])
-                curr_element.reset_index()
-                st.write((curr_element.iloc[[0],[1]])) #get name of indic -- get it as text next.
+                curr_element_index = curr_element.index[0]
+                st.write(curr_element.at[curr_element_index, 'Indicator Name']) #get name of indic -- get it as text next.
 
     st.write()
     st.write()
