@@ -100,13 +100,33 @@ if option != 'Placeholder':
         #population size, GDP (Gross Domestic Product), per capita income (often measured as Gross National Income per capita), life expectancy, infant mortality rate, literacy rate, unemployment rate, poverty rate, CO2 emissions, and economic inequality levels
 
         def format_number(num): #from streamlit blog: https://blog.streamlit.io/crafting-a-dashboard-app-in-python-using-streamlit/
+            
+            if num > 1000000000000:
+                if not num % 1000000000000:
+                    return f'{num // 1000000000000} T'
+                return f'{round(num / 1000000000000, 3)} T'
+            
+            if num > 1000000000:
+                if not num % 1000000000:
+                    return f'{num // 1000000000} B'
+                return f'{round(num / 1000000000, 3)} B'
+            
             if num > 1000000:
                 if not num % 1000000:
                     return f'{num // 1000000} M'
-                return f'{round(num / 1000000, 1)} M'
+                return f'{round(num / 1000000, 3)} M'
             return f'{num // 1000} K'
         
         col1, col2 = st.columns(2)
+
+        def make_general_sheet(data, name):
+            name = pd.DataFrame(data, columns = ['Country Name','Country Code','Indicator Name','Indicator Code',	'1960',
+        '1961',	'1962','1963',	'1964', '1965','1966','1967','1968','1969','1970','1971','1972','1973','1974',
+        '1975',	'1976',	'1977','1978','1979','1980','1981','1982','1983','1984','1985', '1986',	'1987',	'1988',	
+        '1989',	'1990',	'1991',	'1992',	'1993',	'1994',	'1995',	'1996',	'1997',	'1998',	'1999',	'2000',	'2001',	'2002',	
+        '2003',	'2004',	'2005',	'2006',	'2007',	'2008',	'2009',	'2010',	'2011',	'2012',	'2013',	'2014',	'2015',	'2016',	
+        '2017',	'2018','2019','2020','2021','2022','2023'])
+            return name
 
         with col1:
             
@@ -136,7 +156,21 @@ if option != 'Placeholder':
     )
         
         with col2:
-            st.metric('Testing 2', 'Lol')
+            spreadsheet = client.open_by_key(st.secrets["google_sheets"]["spreadsheet_id"])
+            gdp_sheet = spreadsheet.worksheet('GDP_Data')
+            gdp_data = gdp_sheet.get_all_values()
+
+            my_data = make_general_sheet(gdp_data, 'gdp_df')[make_general_sheet(gdp_data, 'gdp_df')['Country Name'] == option]
+            gdp_df_index = int(make_general_sheet(gdp_data, 'gdp_df')[make_general_sheet(gdp_data, 'gdp_df')['Country Name'] == option].index[0])
+            try:
+                gdp = format_number(int(my_data.at[gdp_df_index, '2023']))
+            except:
+                gdp = format_number(int(my_data.at[gdp_df_index, '2022']))
+            
+            make_gdp_tag = '<div style="display: flex; flex-direction: column; justify-content: center; align-items: center;"><h4>' + 'Nominal GDP' + '</h4><p style="font-size: 2em;">' + str(gdp) + '</p></div>'
+
+            st.markdown(make_gdp_tag,
+            unsafe_allow_html=True)
 
 
         scope = ["https://spreadsheets.google.com/feeds", "https://www.googleapis.com/auth/drive"]
