@@ -13,6 +13,8 @@ import gspread
 from oauth2client.service_account import ServiceAccountCredentials
 import streamlit as st
 import html
+import time
+from time import sleep
 
 #streamlit run streamlit_app.py
 
@@ -283,6 +285,9 @@ if option != 'Placeholder':
     if slider_value != st.session_state['slider_value']:
         st.session_state['slider_value'] = slider_value
         st.rerun()
+
+    #add a wait
+    time.sleep(2)
 
     st.markdown("<h5 style='text-align: center; color: black;'>Ready to start plotting?</h5>", unsafe_allow_html=True)
 
