@@ -102,6 +102,9 @@ if option != 'Placeholder':
         #The most pressing statistics to highlight here, 2023:
         #population size, GDP (Gross Domestic Product), per capita income (often measured as Gross National Income per capita), life expectancy, infant mortality rate, literacy rate, unemployment rate, poverty rate, CO2 emissions, and economic inequality levels
 
+        st.write()
+        st.write()
+
         def format_number(num): #from streamlit blog: https://blog.streamlit.io/crafting-a-dashboard-app-in-python-using-streamlit/
             
             if num > 1000000000000:
@@ -120,7 +123,7 @@ if option != 'Placeholder':
                 return f'{round(num / 1000000, 3)} M'
             return f'{num // 1000} K'
         
-        col1, col2 = st.columns(2)
+        col1, col2, col3 = st.columns(3)
 
         def make_general_sheet(data, name):
             name = pd.DataFrame(data, columns = ['Country Name','Country Code','Indicator Name','Indicator Code',	'1960',
@@ -131,11 +134,11 @@ if option != 'Placeholder':
         '2017',	'2018','2019','2020','2021','2022','2023'])
             return name
 
+        scope = ["https://spreadsheets.google.com/feeds", "https://www.googleapis.com/auth/drive"]
+        creds = ServiceAccountCredentials.from_json_keyfile_dict(st.secrets["google_sheets_credentials"], scope)
+        client = gspread.authorize(creds)
+
         with col1:
-            
-            scope = ["https://spreadsheets.google.com/feeds", "https://www.googleapis.com/auth/drive"]
-            creds = ServiceAccountCredentials.from_json_keyfile_dict(st.secrets["google_sheets_credentials"], scope)
-            client = gspread.authorize(creds)
 
             spreadsheet = client.open_by_key(st.secrets["google_sheets"]["spreadsheet_id"])
             pop_sheet = spreadsheet.worksheet('TotPop')
@@ -178,13 +181,6 @@ if option != 'Placeholder':
                 gdp = format_number(int(my_data.at[gdp_df_index, '2023']))
             except:
                 gdp = format_number(int(my_data.at[gdp_df_index, '2022']))
-            
-            def hide_anchor_link():
-                st.markdown("""
-                    <style>
-                    .<path d="M15 7h3a5 5 0 0 1 5 5 5 5 0 0 1-5 5h-3m-6 0H6a5 5 0 0 1-5-5 5 5 0 0 1 5-5h3"></path> {display: none}
-                    </style>
-                    """, unsafe_allow_html=True)
 
             gdp_safe = html.escape(str(gdp))
 
@@ -198,6 +194,32 @@ if option != 'Placeholder':
             '''
 
             st.markdown(gdp_html, unsafe_allow_html=True)
+
+        with col3:
+            spreadsheet = client.open_by_key(st.secrets["google_sheets"]["spreadsheet_id"])
+            worksheet = spreadsheet.worksheet(option)
+            data = worksheet.get_all_values()
+
+            capita_data = (make_general_sheet(data, 'per_capita_df')[make_general_sheet(data, 'per_capita_df')['Indicator Name'] == 'GDP per capita (current US$)'])
+            capita_index = (make_general_sheet(data, 'per_capita_df')[make_general_sheet(data, 'per_capita_df')['Indicator Name'] == 'GDP per capita (current US$)'].index[0])
+
+            try:
+                per_capita = (float(capita_data.at[capita_index, '2023']))
+            except:
+                per_capita = float(((capita_data.at[capita_index, '2022'])))
+
+            capita_safe = html.escape(str((f'${per_capita:.2f}')))
+
+            capita_html = f'''
+            <div style="background-color: #f0f0f0; padding: 4px 12px; border-radius: 10px; display: flex; justify-content: center; align-items: center; width: fit-content; margin: 0 auto; text-align: center;">
+                <div style="display: flex; flex-direction: column; justify-content: center; align-items: center;">
+                    <div style="font-weight: bold; font-size: 1.5em; margin: 0; padding: 0; text-decoration: none; cursor: default;">GDP per Capita</div>
+                    <p style="font-size: 2em; margin: 0; padding: 0; text-decoration: none; cursor: default; pointer-events: none;">{capita_safe}</p>
+                </div>
+            </div>
+            '''
+
+            st.markdown(capita_html, unsafe_allow_html=True)            
 
 #tackle Venezuela, RB issue tmrw
 
