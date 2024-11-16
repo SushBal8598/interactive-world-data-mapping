@@ -94,205 +94,210 @@ if option != 'Placeholder':
     with col1:
         st.markdown('<div style="text-align: center;"></div>', unsafe_allow_html=True)
 
-    columns = st.columns((1, 1, 1))
-    button_pressed = columns[1].button('Generate insights!')
+    #columns = st.columns((1, 1, 1))
+    #button_pressed = columns[1].button('Generate insights!')
 
-    if button_pressed:
+    slider_true = False
 
-        #The most pressing statistics to highlight here, 2023:
-        #population size, GDP (Gross Domestic Product), per capita income (often measured as Gross National Income per capita), life expectancy, infant mortality rate, literacy rate, unemployment rate, poverty rate, CO2 emissions, and economic inequality levels
+    #if button_pressed:
+    slider_true = True #keep the slider showing
 
-        st.write()
-        st.write()
+    #The most pressing statistics to highlight here, 2023:
+    #population size, GDP (Gross Domestic Product), per capita income (often measured as Gross National Income per capita), life expectancy, infant mortality rate, literacy rate, unemployment rate, poverty rate, CO2 emissions, and economic inequality levels
 
-        def format_number(num): #from streamlit blog: https://blog.streamlit.io/crafting-a-dashboard-app-in-python-using-streamlit/
-            
-            if num > 1000000000000:
-                if not num % 1000000000000:
-                    return f'{num // 1000000000000} T'
-                return f'{round(num / 1000000000000, 3)} T'
-            
-            if num > 1000000000:
-                if not num % 1000000000:
-                    return f'{num // 1000000000} B'
-                return f'{round(num / 1000000000, 3)} B'
-            
-            if num > 1000000:
-                if not num % 1000000:
-                    return f'{num // 1000000} M'
-                return f'{round(num / 1000000, 3)} M'
-            return f'{num // 1000} K'
+    st.write()
+    st.write()
+
+    def format_number(num): #from streamlit blog: https://blog.streamlit.io/crafting-a-dashboard-app-in-python-using-streamlit/
         
-        col1, col2, col3, col4 = st.columns(4)
-
-        #Poverty headcount ratio at societal poverty line (% of population)
-
-        def make_general_sheet(data, name):
-            name = pd.DataFrame(data, columns = ['Country Name','Country Code','Indicator Name','Indicator Code',	'1960',
-        '1961',	'1962','1963',	'1964', '1965','1966','1967','1968','1969','1970','1971','1972','1973','1974',
-        '1975',	'1976',	'1977','1978','1979','1980','1981','1982','1983','1984','1985', '1986',	'1987',	'1988',	
-        '1989',	'1990',	'1991',	'1992',	'1993',	'1994',	'1995',	'1996',	'1997',	'1998',	'1999',	'2000',	'2001',	'2002',	
-        '2003',	'2004',	'2005',	'2006',	'2007',	'2008',	'2009',	'2010',	'2011',	'2012',	'2013',	'2014',	'2015',	'2016',	
-        '2017',	'2018','2019','2020','2021','2022','2023'])
-            return name
-
-        scope = ["https://spreadsheets.google.com/feeds", "https://www.googleapis.com/auth/drive"]
-        creds = ServiceAccountCredentials.from_json_keyfile_dict(st.secrets["google_sheets_credentials"], scope)
-        client = gspread.authorize(creds)
-
-        with col1:
-
-            spreadsheet = client.open_by_key(st.secrets["google_sheets"]["spreadsheet_id"])
-            pop_sheet = spreadsheet.worksheet('TotPop')
-            pop_data = pop_sheet.get_all_values()
-
-            pop_df = pd.DataFrame(pop_data, columns = ['Country Name','Country Code','Indicator Name','Indicator Code',	'1960',
-        '1961',	'1962','1963',	'1964', '1965','1966','1967','1968','1969','1970','1971','1972','1973','1974',
-        '1975',	'1976',	'1977','1978','1979','1980','1981','1982','1983','1984','1985', '1986',	'1987',	'1988',	
-        '1989',	'1990',	'1991',	'1992',	'1993',	'1994',	'1995',	'1996',	'1997',	'1998',	'1999',	'2000',	'2001',	'2002',	
-        '2003',	'2004',	'2005',	'2006',	'2007',	'2008',	'2009',	'2010',	'2011',	'2012',	'2013',	'2014',	'2015',	'2016',	
-        '2017',	'2018','2019','2020','2021','2022','2023'])
-
-            country_df = pop_df[pop_df['Country Name'] == option]
-            country_df_index = int((pop_df[pop_df['Country Name'] == option].index)[0])
-            population = format_number(int(country_df.at[country_df_index, '2023']))
-            
-            population_safe = html.escape(str(population))
-
-            #make_population_tag = '<div style="display: flex; flex-direction: column; justify-content: center; align-items: center;"><h4>' + 'Population' + '</h4><p style="font-size: 2em;">' + str(population) + '</p></div>'
-
-            population_html = f'''
-            <div style="background-color: #f0f0f0; padding: 4px 12px; border-radius: 10px; display: flex; justify-content: center; align-items: center; width: fit-content; margin: 0 auto; text-align: center;">
-                <div style="display: flex; flex-direction: column; justify-content: center; align-items: center;">
-                    <div style="font-weight: bold; font-size: 1.5em; margin: 0; padding: 0; text-decoration: none; cursor: default;">Population</div>
-                    <p style="font-size: 2em; margin: 0; padding: 0; text-decoration: none; cursor: default; pointer-events: none;">{population_safe}</p>
-                </div>
-            </div>
-            '''
-
-            st.markdown(population_html, unsafe_allow_html=True)
+        if num > 1000000000000:
+            if not num % 1000000000000:
+                return f'{num // 1000000000000} T'
+            return f'{round(num / 1000000000000, 3)} T'
         
-        with col2:
-            spreadsheet = client.open_by_key(st.secrets["google_sheets"]["spreadsheet_id"])
-            gdp_sheet = spreadsheet.worksheet('GDP_Data')
-            gdp_data = gdp_sheet.get_all_values()
+        if num > 1000000000:
+            if not num % 1000000000:
+                return f'{num // 1000000000} B'
+            return f'{round(num / 1000000000, 3)} B'
+        
+        if num > 1000000:
+            if not num % 1000000:
+                return f'{num // 1000000} M'
+            return f'{round(num / 1000000, 3)} M'
+        return f'{num // 1000} K'
+    
+    col1, col2, col3, col4 = st.columns(4)
 
-            my_data = make_general_sheet(gdp_data, 'gdp_df')[make_general_sheet(gdp_data, 'gdp_df')['Country Name'] == option]
-            gdp_df_index = int(make_general_sheet(gdp_data, 'gdp_df')[make_general_sheet(gdp_data, 'gdp_df')['Country Name'] == option].index[0])
-            try:
-                gdp = format_number(int(my_data.at[gdp_df_index, '2023']))
-            except:
-                gdp = format_number(int(my_data.at[gdp_df_index, '2022']))
+    #Poverty headcount ratio at societal poverty line (% of population)
 
-            gdp_safe = html.escape(str(gdp))
+    def make_general_sheet(data, name):
+        name = pd.DataFrame(data, columns = ['Country Name','Country Code','Indicator Name','Indicator Code',	'1960',
+    '1961',	'1962','1963',	'1964', '1965','1966','1967','1968','1969','1970','1971','1972','1973','1974',
+    '1975',	'1976',	'1977','1978','1979','1980','1981','1982','1983','1984','1985', '1986',	'1987',	'1988',	
+    '1989',	'1990',	'1991',	'1992',	'1993',	'1994',	'1995',	'1996',	'1997',	'1998',	'1999',	'2000',	'2001',	'2002',	
+    '2003',	'2004',	'2005',	'2006',	'2007',	'2008',	'2009',	'2010',	'2011',	'2012',	'2013',	'2014',	'2015',	'2016',	
+    '2017',	'2018','2019','2020','2021','2022','2023'])
+        return name
 
-            gdp_html = f'''
-            <div style="background-color: #f0f0f0; padding: 4px 12px; border-radius: 10px; display: flex; justify-content: center; align-items: center; width: fit-content; margin: 0 auto; text-align: center;">
-                <div style="display: flex; flex-direction: column; justify-content: center; align-items: center;">
-                    <div style="font-weight: bold; font-size: 1.5em; margin: 0; padding: 0; text-decoration: none; cursor: default;">Nominal GDP</div>
-                    <p style="font-size: 2em; margin: 0; padding: 0; text-decoration: none; cursor: default; pointer-events: none;">{gdp_safe}</p>
-                </div>
-            </div>
-            '''
+    scope = ["https://spreadsheets.google.com/feeds", "https://www.googleapis.com/auth/drive"]
+    creds = ServiceAccountCredentials.from_json_keyfile_dict(st.secrets["google_sheets_credentials"], scope)
+    client = gspread.authorize(creds)
 
-            st.markdown(gdp_html, unsafe_allow_html=True)
+    with col1:
 
-        with col3:
-            spreadsheet = client.open_by_key(st.secrets["google_sheets"]["spreadsheet_id"])
-            worksheet = spreadsheet.worksheet(option)
-            data = worksheet.get_all_values()
-
-            capita_data = (make_general_sheet(data, 'per_capita_df')[make_general_sheet(data, 'per_capita_df')['Indicator Name'] == 'GDP per capita (current US$)'])
-            capita_index = (make_general_sheet(data, 'per_capita_df')[make_general_sheet(data, 'per_capita_df')['Indicator Name'] == 'GDP per capita (current US$)'].index[0])
-
-            try:
-                per_capita = (float(capita_data.at[capita_index, '2023']))
-            except:
-                per_capita = float(((capita_data.at[capita_index, '2022'])))
-
-            capita_safe = html.escape(str((f'${per_capita:.2f}')))
-
-            capita_html = f'''
-            <div style="background-color: #f0f0f0; padding: 4px 12px; border-radius: 10px; display: flex; justify-content: center; align-items: center; width: fit-content; margin: 0 auto; text-align: center;">
-                <div style="display: flex; flex-direction: column; justify-content: center; align-items: center;">
-                    <div style="font-weight: bold; font-size: 1.5em; margin: 0; padding: 0; text-decoration: none; cursor: default;">Per Capita</div>
-                    <p style="font-size: 2em; margin: 0; padding: 0; text-decoration: none; cursor: default; pointer-events: none;">{capita_safe}</p>
-                </div>
-            </div>
-            '''
-
-            st.markdown(capita_html, unsafe_allow_html=True)  
-
-        with col4:
-            spreadsheet = client.open_by_key(st.secrets["google_sheets"]["spreadsheet_id"])
-            worksheet = spreadsheet.worksheet(option)
-            data = worksheet.get_all_values()    
-
-            name = 'SI.POV.SOPO'
-
-            poverty_data = (make_general_sheet(data, 'poverty_df')[make_general_sheet(data, 'poverty_df')['Indicator Code'] == name])            #poverty_index = (make_general_sheet(data, 'poverty_line_df')[make_general_sheet(data, 'poverty_line_df')['Indicator Code'] == name].index[0])
-            poverty_index = (make_general_sheet(data, 'poverty_df')[make_general_sheet(data, 'poverty_df')['Indicator Code'] == name].index[0])
-
-            if poverty_data.at[poverty_index, '2023'] == '':
-                poverty_capita = '--.--'
-            else:
-                poverty_capita = (float(poverty_data.at[poverty_index, '2023']))
-
-            try:
-                poverty_safe = html.escape(str((f'{poverty_capita:.2f}%')))
-            except:
-                poverty_safe = html.escape(str((f'{poverty_capita}%')))
-
-            poverty_html = f'''
-            <div style="background-color: #f0f0f0; padding: 4px 12px; border-radius: 10px; display: flex; justify-content: center; align-items: center; width: fit-content; margin: 0 auto; text-align: center;">
-                <div style="display: flex; flex-direction: column; justify-content: center; align-items: center;">
-                    <div style="font-weight: bold; font-size: 1.5em; margin: 0; padding: 0; text-decoration: none; cursor: default;">Poverty Rate</div>
-                    <p style="font-size: 2em; margin: 0; padding: 0; text-decoration: none; cursor: default; pointer-events: none;">{poverty_safe}</p>
-                </div>
-            </div>
-            '''
-            
-            st.markdown(poverty_html, unsafe_allow_html=True)  
-
-        col1 = st.columns(1)[0]
-        slider_value = st.slider(label='', min_value=1960, max_value=2023, value=2023)
-
-
-            #tackle Venezuela, RB issue tmrw
-
-            #st.markdown(make_gdp_tag,
-            #unsafe_allow_html=True)
-
-
-        #begin data extraction for mass analysis
-
-        scope = ["https://spreadsheets.google.com/feeds", "https://www.googleapis.com/auth/drive"]
-        creds = ServiceAccountCredentials.from_json_keyfile_dict(st.secrets["google_sheets_credentials"], scope)
-        client = gspread.authorize(creds)
-
-        # Open the spreadsheet by its ID
         spreadsheet = client.open_by_key(st.secrets["google_sheets"]["spreadsheet_id"])
+        pop_sheet = spreadsheet.worksheet('TotPop')
+        pop_data = pop_sheet.get_all_values()
 
+        pop_df = pd.DataFrame(pop_data, columns = ['Country Name','Country Code','Indicator Name','Indicator Code',	'1960',
+    '1961',	'1962','1963',	'1964', '1965','1966','1967','1968','1969','1970','1971','1972','1973','1974',
+    '1975',	'1976',	'1977','1978','1979','1980','1981','1982','1983','1984','1985', '1986',	'1987',	'1988',	
+    '1989',	'1990',	'1991',	'1992',	'1993',	'1994',	'1995',	'1996',	'1997',	'1998',	'1999',	'2000',	'2001',	'2002',	
+    '2003',	'2004',	'2005',	'2006',	'2007',	'2008',	'2009',	'2010',	'2011',	'2012',	'2013',	'2014',	'2015',	'2016',	
+    '2017',	'2018','2019','2020','2021','2022','2023'])
 
-        # Read data from the specific worksheet
+        country_df = pop_df[pop_df['Country Name'] == option]
+        country_df_index = int((pop_df[pop_df['Country Name'] == option].index)[0])
+        population = format_number(int(country_df.at[country_df_index, '2023']))
+        
+        population_safe = html.escape(str(population))
+
+        #make_population_tag = '<div style="display: flex; flex-direction: column; justify-content: center; align-items: center;"><h4>' + 'Population' + '</h4><p style="font-size: 2em;">' + str(population) + '</p></div>'
+
+        population_html = f'''
+        <div style="background-color: #f0f0f0; padding: 4px 12px; border-radius: 10px; display: flex; justify-content: center; align-items: center; width: fit-content; margin: 0 auto; text-align: center;">
+            <div style="display: flex; flex-direction: column; justify-content: center; align-items: center;">
+                <div style="font-weight: bold; font-size: 1.5em; margin: 0; padding: 0; text-decoration: none; cursor: default;">Population</div>
+                <p style="font-size: 2em; margin: 0; padding: 0; text-decoration: none; cursor: default; pointer-events: none;">{population_safe}</p>
+            </div>
+        </div>
+        '''
+
+        st.markdown(population_html, unsafe_allow_html=True)
+    
+    with col2:
+        spreadsheet = client.open_by_key(st.secrets["google_sheets"]["spreadsheet_id"])
+        gdp_sheet = spreadsheet.worksheet('GDP_Data')
+        gdp_data = gdp_sheet.get_all_values()
+
+        my_data = make_general_sheet(gdp_data, 'gdp_df')[make_general_sheet(gdp_data, 'gdp_df')['Country Name'] == option]
+        gdp_df_index = int(make_general_sheet(gdp_data, 'gdp_df')[make_general_sheet(gdp_data, 'gdp_df')['Country Name'] == option].index[0])
+        try:
+            gdp = format_number(int(my_data.at[gdp_df_index, '2023']))
+        except:
+            gdp = format_number(int(my_data.at[gdp_df_index, '2022']))
+
+        gdp_safe = html.escape(str(gdp))
+
+        gdp_html = f'''
+        <div style="background-color: #f0f0f0; padding: 4px 12px; border-radius: 10px; display: flex; justify-content: center; align-items: center; width: fit-content; margin: 0 auto; text-align: center;">
+            <div style="display: flex; flex-direction: column; justify-content: center; align-items: center;">
+                <div style="font-weight: bold; font-size: 1.5em; margin: 0; padding: 0; text-decoration: none; cursor: default;">Nominal GDP</div>
+                <p style="font-size: 2em; margin: 0; padding: 0; text-decoration: none; cursor: default; pointer-events: none;">{gdp_safe}</p>
+            </div>
+        </div>
+        '''
+
+        st.markdown(gdp_html, unsafe_allow_html=True)
+
+    with col3:
+        spreadsheet = client.open_by_key(st.secrets["google_sheets"]["spreadsheet_id"])
         worksheet = spreadsheet.worksheet(option)
         data = worksheet.get_all_values()
 
-        # Convert the data into a DataFrame if needed
-        import pandas as pd
-        #df = pd.DataFrame(data)
-        df = pd.DataFrame(data, columns = ['Country Name','Country Code','Indicator Name','Indicator Code',	'1960',
-        '1961',	'1962','1963',	'1964', '1965','1966','1967','1968','1969','1970','1971','1972','1973','1974',
-        '1975',	'1976',	'1977','1978','1979','1980','1981','1982','1983','1984','1985', '1986',	'1987',	'1988',	
-        '1989',	'1990',	'1991',	'1992',	'1993',	'1994',	'1995',	'1996',	'1997',	'1998',	'1999',	'2000',	'2001',	'2002',	
-        '2003',	'2004',	'2005',	'2006',	'2007',	'2008',	'2009',	'2010',	'2011',	'2012',	'2013',	'2014',	'2015',	'2016',	
-        '2017',	'2018','2019','2020','2021','2022','2023'])
+        capita_data = (make_general_sheet(data, 'per_capita_df')[make_general_sheet(data, 'per_capita_df')['Indicator Name'] == 'GDP per capita (current US$)'])
+        capita_index = (make_general_sheet(data, 'per_capita_df')[make_general_sheet(data, 'per_capita_df')['Indicator Name'] == 'GDP per capita (current US$)'].index[0])
 
-        st.write(df)  # Display the data in the Streamlit app
-        st.write(df.columns)
+        try:
+            per_capita = (float(capita_data.at[capita_index, '2023']))
+        except:
+            per_capita = float(((capita_data.at[capita_index, '2022'])))
+
+        capita_safe = html.escape(str((f'${per_capita:.2f}')))
+
+        capita_html = f'''
+        <div style="background-color: #f0f0f0; padding: 4px 12px; border-radius: 10px; display: flex; justify-content: center; align-items: center; width: fit-content; margin: 0 auto; text-align: center;">
+            <div style="display: flex; flex-direction: column; justify-content: center; align-items: center;">
+                <div style="font-weight: bold; font-size: 1.5em; margin: 0; padding: 0; text-decoration: none; cursor: default;">Per Capita</div>
+                <p style="font-size: 2em; margin: 0; padding: 0; text-decoration: none; cursor: default; pointer-events: none;">{capita_safe}</p>
+            </div>
+        </div>
+        '''
+
+        st.markdown(capita_html, unsafe_allow_html=True)  
+
+    with col4:
+        spreadsheet = client.open_by_key(st.secrets["google_sheets"]["spreadsheet_id"])
+        worksheet = spreadsheet.worksheet(option)
+        data = worksheet.get_all_values()    
+
+        name = 'SI.POV.SOPO'
+
+        poverty_data = (make_general_sheet(data, 'poverty_df')[make_general_sheet(data, 'poverty_df')['Indicator Code'] == name])            #poverty_index = (make_general_sheet(data, 'poverty_line_df')[make_general_sheet(data, 'poverty_line_df')['Indicator Code'] == name].index[0])
+        poverty_index = (make_general_sheet(data, 'poverty_df')[make_general_sheet(data, 'poverty_df')['Indicator Code'] == name].index[0])
+
+        if poverty_data.at[poverty_index, '2023'] == '':
+            poverty_capita = '--.--'
+        else:
+            poverty_capita = (float(poverty_data.at[poverty_index, '2023']))
+
+        try:
+            poverty_safe = html.escape(str((f'{poverty_capita:.2f}%')))
+        except:
+            poverty_safe = html.escape(str((f'{poverty_capita}%')))
+
+        poverty_html = f'''
+        <div style="background-color: #f0f0f0; padding: 4px 12px; border-radius: 10px; display: flex; justify-content: center; align-items: center; width: fit-content; margin: 0 auto; text-align: center;">
+            <div style="display: flex; flex-direction: column; justify-content: center; align-items: center;">
+                <div style="font-weight: bold; font-size: 1.5em; margin: 0; padding: 0; text-decoration: none; cursor: default;">Poverty Rate</div>
+                <p style="font-size: 2em; margin: 0; padding: 0; text-decoration: none; cursor: default; pointer-events: none;">{poverty_safe}</p>
+            </div>
+        </div>
+        '''
+        
+        st.markdown(poverty_html, unsafe_allow_html=True)  
+
+        #tackle Venezuela, RB issue tmrw
+
+        #st.markdown(make_gdp_tag,
+        #unsafe_allow_html=True)
+
+    col1 = st.columns(1)[0]
+
+    slider_value = st.slider(label="", 
+            min_value=1960, 
+            max_value=2023, 
+            value=2023)
+
+    if slider_value == 2023:
+        st.success('Choose a year to generate insights for.')
+
+    #begin data extraction for mass analysis
+
+    scope = ["https://spreadsheets.google.com/feeds", "https://www.googleapis.com/auth/drive"]
+    creds = ServiceAccountCredentials.from_json_keyfile_dict(st.secrets["google_sheets_credentials"], scope)
+    client = gspread.authorize(creds)
+
+    # Open the spreadsheet by its ID
+    spreadsheet = client.open_by_key(st.secrets["google_sheets"]["spreadsheet_id"])
+
+
+    # Read data from the specific worksheet
+    worksheet = spreadsheet.worksheet(option)
+    data = worksheet.get_all_values()
+
+    # Convert the data into a DataFrame if needed
+    import pandas as pd
+    #df = pd.DataFrame(data)
+    df = pd.DataFrame(data, columns = ['Country Name','Country Code','Indicator Name','Indicator Code',	'1960',
+    '1961',	'1962','1963',	'1964', '1965','1966','1967','1968','1969','1970','1971','1972','1973','1974',
+    '1975',	'1976',	'1977','1978','1979','1980','1981','1982','1983','1984','1985', '1986',	'1987',	'1988',	
+    '1989',	'1990',	'1991',	'1992',	'1993',	'1994',	'1995',	'1996',	'1997',	'1998',	'1999',	'2000',	'2001',	'2002',	
+    '2003',	'2004',	'2005',	'2006',	'2007',	'2008',	'2009',	'2010',	'2011',	'2012',	'2013',	'2014',	'2015',	'2016',	
+    '2017',	'2018','2019','2020','2021','2022','2023'])
+
+    st.write(df)  # Display the data in the Streamlit app
+    st.write(df.columns)
 
 else: 
     st.success('Select a country above to proceed.')
-
-
-    
