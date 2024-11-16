@@ -123,7 +123,9 @@ if option != 'Placeholder':
                 return f'{round(num / 1000000, 3)} M'
             return f'{num // 1000} K'
         
-        col1, col2, col3 = st.columns(3)
+        col1, col2, col3, col4 = st.columns(4)
+
+        #Poverty headcount ratio at societal poverty line (% of population)
 
         def make_general_sheet(data, name):
             name = pd.DataFrame(data, columns = ['Country Name','Country Code','Indicator Name','Indicator Code',	'1960',
@@ -219,9 +221,42 @@ if option != 'Placeholder':
             </div>
             '''
 
-            st.markdown(capita_html, unsafe_allow_html=True)            
+            st.markdown(capita_html, unsafe_allow_html=True)  
 
-#tackle Venezuela, RB issue tmrw
+        with col4:
+            spreadsheet = client.open_by_key(st.secrets["google_sheets"]["spreadsheet_id"])
+            worksheet = spreadsheet.worksheet(option)
+            data = worksheet.get_all_values()    
+
+            name = 'SI.POV.SOPO'
+
+            poverty_data = (make_general_sheet(data, 'poverty_df')[make_general_sheet(data, 'poverty_df')['Indicator Code'] == name])            #poverty_index = (make_general_sheet(data, 'poverty_line_df')[make_general_sheet(data, 'poverty_line_df')['Indicator Code'] == name].index[0])
+            poverty_index = (make_general_sheet(data, 'poverty_df')[make_general_sheet(data, 'poverty_df')['Indicator Code'] == name].index[0])
+
+            if poverty_data.at[poverty_index, '2023'] == '':
+                poverty_capita = '--.--'
+            else:
+                poverty_capita = (float(poverty_data.at[poverty_index, '2023']))
+
+            try:
+                poverty_safe = html.escape(str((f'{poverty_capita:.2f}%')))
+            except:
+                poverty_safe = html.escape(str((f'{poverty_capita}%')))
+
+            poverty_html = f'''
+            <div style="background-color: #f0f0f0; padding: 4px 12px; border-radius: 10px; display: flex; justify-content: center; align-items: center; width: fit-content; margin: 0 auto; text-align: center;">
+                <div style="display: flex; flex-direction: column; justify-content: center; align-items: center;">
+                    <div style="font-weight: bold; font-size: 1.5em; margin: 0; padding: 0; text-decoration: none; cursor: default;">Poverty Rate</div>
+                    <p style="font-size: 2em; margin: 0; padding: 0; text-decoration: none; cursor: default; pointer-events: none;">{poverty_safe}</p>
+                </div>
+            </div>
+            '''
+            
+            st.markdown(poverty_html, unsafe_allow_html=True)  
+
+
+
+            #tackle Venezuela, RB issue tmrw
 
             #st.markdown(make_gdp_tag,
             #unsafe_allow_html=True)
