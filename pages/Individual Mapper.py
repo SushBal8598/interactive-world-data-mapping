@@ -12,6 +12,9 @@ from streamlit_gsheets import GSheetsConnection
 import gspread
 from oauth2client.service_account import ServiceAccountCredentials
 import streamlit as st
+import html
+
+#streamlit run streamlit_app.py
 
 st.markdown("<h1 style='text-align: center; color: black;'>Individual Country Mapper</h1>", unsafe_allow_html=True)
 st.markdown("<h5 style='text-align: center; color: black;'>Explore top-down overviews of specific countries.</h1>", unsafe_allow_html=True)
@@ -149,11 +152,20 @@ if option != 'Placeholder':
             country_df_index = int((pop_df[pop_df['Country Name'] == option].index)[0])
             population = format_number(int(country_df.at[country_df_index, '2023']))
             
-            make_population_tag = '<div style="display: flex; flex-direction: column; justify-content: center; align-items: center;"><h4>' + 'Population' + '</h4><p style="font-size: 2em;">' + str(population) + '</p></div>'
+            population_safe = html.escape(str(population))
 
-            st.markdown(make_population_tag,
-            unsafe_allow_html=True
-    )
+            #make_population_tag = '<div style="display: flex; flex-direction: column; justify-content: center; align-items: center;"><h4>' + 'Population' + '</h4><p style="font-size: 2em;">' + str(population) + '</p></div>'
+
+            population_html = f'''
+            <div style="background-color: #f0f0f0; padding: 4px 12px; border-radius: 10px; display: flex; justify-content: center; align-items: center; width: fit-content; margin: 0 auto; text-align: center;">
+                <div style="display: flex; flex-direction: column; justify-content: center; align-items: center;">
+                    <div style="font-weight: bold; font-size: 1.5em; margin: 0; padding: 0; text-decoration: none; cursor: default;">Population</div>
+                    <p style="font-size: 2em; margin: 0; padding: 0; text-decoration: none; cursor: default; pointer-events: none;">{population_safe}</p>
+                </div>
+            </div>
+            '''
+
+            st.markdown(population_html, unsafe_allow_html=True)
         
         with col2:
             spreadsheet = client.open_by_key(st.secrets["google_sheets"]["spreadsheet_id"])
@@ -167,10 +179,30 @@ if option != 'Placeholder':
             except:
                 gdp = format_number(int(my_data.at[gdp_df_index, '2022']))
             
-            make_gdp_tag = '<div style="display: flex; flex-direction: column; justify-content: center; align-items: center;"><h4>' + 'Nominal GDP' + '</h4><p style="font-size: 2em;">' + str(gdp) + '</p></div>'
+            def hide_anchor_link():
+                st.markdown("""
+                    <style>
+                    .<path d="M15 7h3a5 5 0 0 1 5 5 5 5 0 0 1-5 5h-3m-6 0H6a5 5 0 0 1-5-5 5 5 0 0 1 5-5h3"></path> {display: none}
+                    </style>
+                    """, unsafe_allow_html=True)
 
-            st.markdown(make_gdp_tag,
-            unsafe_allow_html=True)
+            gdp_safe = html.escape(str(gdp))
+
+            gdp_html = f'''
+            <div style="background-color: #f0f0f0; padding: 4px 12px; border-radius: 10px; display: flex; justify-content: center; align-items: center; width: fit-content; margin: 0 auto; text-align: center;">
+                <div style="display: flex; flex-direction: column; justify-content: center; align-items: center;">
+                    <div style="font-weight: bold; font-size: 1.5em; margin: 0; padding: 0; text-decoration: none; cursor: default;">Nominal GDP</div>
+                    <p style="font-size: 2em; margin: 0; padding: 0; text-decoration: none; cursor: default; pointer-events: none;">{gdp_safe}</p>
+                </div>
+            </div>
+            '''
+
+            st.markdown(gdp_html, unsafe_allow_html=True)
+
+#tackle Venezuela, RB issue tmrw
+
+            #st.markdown(make_gdp_tag,
+            #unsafe_allow_html=True)
 
 
         scope = ["https://spreadsheets.google.com/feeds", "https://www.googleapis.com/auth/drive"]
