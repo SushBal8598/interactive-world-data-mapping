@@ -38,6 +38,12 @@ option = st.selectbox(
 )
 
 if option != 'Placeholder':
+
+    if 'slider_value' not in st.session_state:
+        st.session_state['slider_value'] = 2023
+
+    #st.write(st.session_state['slider_value']) for debugging
+
     col1, col2, col3 , col4, col5 = st.columns(5)
 
     html_str = f"""<h2 style='text-align: center; color: black;'>{option}</h2>"""
@@ -96,11 +102,6 @@ if option != 'Placeholder':
 
     #columns = st.columns((1, 1, 1))
     #button_pressed = columns[1].button('Generate insights!')
-
-    slider_true = False
-
-    #if button_pressed:
-    slider_true = True #keep the slider showing
 
     #The most pressing statistics to highlight here, 2023:
     #population size, GDP (Gross Domestic Product), per capita income (often measured as Gross National Income per capita), life expectancy, infant mortality rate, literacy rate, unemployment rate, poverty rate, CO2 emissions, and economic inequality levels
@@ -267,10 +268,14 @@ if option != 'Placeholder':
     slider_value = st.slider(label="", 
             min_value=1960, 
             max_value=2023, 
-            value=2023)
+            value= st.session_state['slider_value'])
 
     if slider_value == 2023:
         st.success('Choose a year to generate insights for.')
+
+    if slider_value != st.session_state['slider_value']:
+        st.session_state['slider_value'] = slider_value
+        st.rerun()
 
     #begin data extraction for mass analysis
 
