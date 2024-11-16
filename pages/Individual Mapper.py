@@ -4,6 +4,8 @@ import matplotlib.pyplot as plt
 import seaborn as sns
 import geopandas as gpd
 import pandas as pd
+import vertexai
+from vertexai.generative_models import GenerativeModel
 
 from streamlit_gsheets import GSheetsConnection
 
@@ -45,10 +47,12 @@ if option != 'Placeholder':
     st.markdown("""
     <style>
     [data-testid=column]:nth-of-type(1) [data-testid=stVerticalBlock]{
-        gap: 0rem;
+        gap: 0.5rem; 
     }
     </style>
     """,unsafe_allow_html=True)
+
+    #fix the spacing issue.
 
     st.markdown(country_byname, unsafe_allow_html=True)
 
@@ -64,10 +68,36 @@ if option != 'Placeholder':
     """, 
     unsafe_allow_html=True
 )
+    
+    col1, col2 = st.columns(2)
+
+    with col1:
+        #def generate(prompt):
+            #vertexai.init(project="<YOUR_PROJECT_ID>", location="us-central1")
+            #model = GenerativeModel("gemini-1.5-flash-001")
+
+            #responses = model.generate_content(
+            #prompt,
+            #generation_config=generation_config,
+            #stream=False,
+            #)
+
+        st.markdown('<div style="text-align: center;">This section will be updated with an overview of the country!</div>', unsafe_allow_html=True)
+    
+    with col2:
+        st.markdown('<div style="text-align: center;">This section will be updated with a carousel of images!</div>', unsafe_allow_html=True)
+
+    columns = st.columns((1))
+    with col1:
+        st.markdown('<div style="text-align: center;"></div>', unsafe_allow_html=True)
+
     columns = st.columns((1, 1, 1))
     button_pressed = columns[1].button('Generate insights!')
 
     if button_pressed:
+
+        #The most pressing statistics to highlight here, 2023:
+        #population size, GDP (Gross Domestic Product), per capita income (often measured as Gross National Income per capita), life expectancy, infant mortality rate, literacy rate, unemployment rate, poverty rate, CO2 emissions, and economic inequality levels
 
         scope = ["https://spreadsheets.google.com/feeds", "https://www.googleapis.com/auth/drive"]
         creds = ServiceAccountCredentials.from_json_keyfile_dict(st.secrets["google_sheets_credentials"], scope)
