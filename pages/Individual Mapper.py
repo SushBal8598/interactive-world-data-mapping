@@ -239,7 +239,7 @@ if option != 'Placeholder':
         poverty_data = (make_general_sheet(data, 'poverty_df')[make_general_sheet(data, 'poverty_df')['Indicator Code'] == name])            #poverty_index = (make_general_sheet(data, 'poverty_line_df')[make_general_sheet(data, 'poverty_line_df')['Indicator Code'] == name].index[0])
         poverty_index = (make_general_sheet(data, 'poverty_df')[make_general_sheet(data, 'poverty_df')['Indicator Code'] == name].index[0])
 
-        if poverty_data.at[poverty_index, '2023'] == '':
+        if poverty_data.at[poverty_index, my_year] == '':
             poverty_capita = '--.--'
         else:
             poverty_capita = (float(poverty_data.at[poverty_index, my_year]))
