@@ -42,6 +42,8 @@ if option != 'Placeholder':
     if 'slider_value' not in st.session_state:
         st.session_state['slider_value'] = 2023
 
+    my_year = str(st.session_state['slider_value'])
+    
     #st.write(st.session_state['slider_value']) for debugging
 
     col1, col2, col3 , col4, col5 = st.columns(5)
@@ -113,19 +115,19 @@ if option != 'Placeholder':
         
         if num > 1000000000000:
             if not num % 1000000000000:
-                return f'{num // 1000000000000} T'
-            return f'{round(num / 1000000000000, 3)} T'
+                return f'{num // 1000000000000}T'
+            return f'{round(num / 1000000000000, 3)}T'
         
         if num > 1000000000:
             if not num % 1000000000:
-                return f'{num // 1000000000} B'
-            return f'{round(num / 1000000000, 3)} B'
+                return f'{num // 1000000000}B'
+            return f'{round(num / 1000000000, 3)}B'
         
         if num > 1000000:
             if not num % 1000000:
-                return f'{num // 1000000} M'
-            return f'{round(num / 1000000, 3)} M'
-        return f'{num // 1000} K'
+                return f'{num // 1000000}M'
+            return f'{round(num / 1000000, 3)}M'
+        return f'{num // 1000}K'
     
     col1, col2, col3, col4 = st.columns(4)
 
@@ -159,7 +161,7 @@ if option != 'Placeholder':
 
         country_df = pop_df[pop_df['Country Name'] == option]
         country_df_index = int((pop_df[pop_df['Country Name'] == option].index)[0])
-        population = format_number(int(country_df.at[country_df_index, '2023']))
+        population = format_number(int(country_df.at[country_df_index, (my_year)]))
         
         population_safe = html.escape(str(population))
 
@@ -184,9 +186,9 @@ if option != 'Placeholder':
         my_data = make_general_sheet(gdp_data, 'gdp_df')[make_general_sheet(gdp_data, 'gdp_df')['Country Name'] == option]
         gdp_df_index = int(make_general_sheet(gdp_data, 'gdp_df')[make_general_sheet(gdp_data, 'gdp_df')['Country Name'] == option].index[0])
         try:
-            gdp = format_number(int(my_data.at[gdp_df_index, '2023']))
+            gdp = format_number(int(my_data.at[gdp_df_index, (my_year)]))
         except:
-            gdp = format_number(int(my_data.at[gdp_df_index, '2022']))
+            gdp = '---'
 
         gdp_safe = html.escape(str(gdp))
 
@@ -194,7 +196,7 @@ if option != 'Placeholder':
         <div style="background-color: #f0f0f0; padding: 4px 12px; border-radius: 10px; display: flex; justify-content: center; align-items: center; width: fit-content; margin: 0 auto; text-align: center;">
             <div style="display: flex; flex-direction: column; justify-content: center; align-items: center;">
                 <div style="font-weight: bold; font-size: 1.5em; margin: 0; padding: 0; text-decoration: none; cursor: default;">Nominal GDP</div>
-                <p style="font-size: 2em; margin: 0; padding: 0; text-decoration: none; cursor: default; pointer-events: none;">{gdp_safe}</p>
+                <p style="font-size: 2em; margin: 0; padding: 0; text-decoration: none; cursor: default; pointer-events: none;">${gdp_safe}</p>
             </div>
         </div>
         '''
@@ -210,9 +212,9 @@ if option != 'Placeholder':
         capita_index = (make_general_sheet(data, 'per_capita_df')[make_general_sheet(data, 'per_capita_df')['Indicator Name'] == 'GDP per capita (current US$)'].index[0])
 
         try:
-            per_capita = (float(capita_data.at[capita_index, '2023']))
+            per_capita = (float(capita_data.at[capita_index, my_year]))
         except:
-            per_capita = float(((capita_data.at[capita_index, '2022'])))
+            per_capita = '--.--'
 
         capita_safe = html.escape(str((f'${per_capita:.2f}')))
 
@@ -240,7 +242,7 @@ if option != 'Placeholder':
         if poverty_data.at[poverty_index, '2023'] == '':
             poverty_capita = '--.--'
         else:
-            poverty_capita = (float(poverty_data.at[poverty_index, '2023']))
+            poverty_capita = (float(poverty_data.at[poverty_index, my_year]))
 
         try:
             poverty_safe = html.escape(str((f'{poverty_capita:.2f}%')))
