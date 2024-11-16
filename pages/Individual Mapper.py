@@ -44,6 +44,14 @@ for index, row in df.iterrows():
 
 all_indicators = all_indicators[1:] #remove the first row
 
+worksheet = spreadsheet.worksheet('Indic_MetaData')
+data = worksheet.get_all_values()
+
+df_indic = pd.DataFrame(data, columns = ['Indicator Name', 'Indicator Description','Indicator Source'])
+df_indic = df_indic.reset_index()
+
+#begin web app
+
 st.markdown("<h1 style='text-align: center; color: black;'>Individual Country Mapper</h1>", unsafe_allow_html=True)
 st.markdown("<h5 style='text-align: center; color: black;'>Explore top-down overviews of specific countries.</h1>", unsafe_allow_html=True)
 
@@ -387,6 +395,10 @@ if option != 'Placeholder':
         ) 
             if options == []:
                 st.success('Input an indicator name for more details.')
+            else:
+                curr_element = (df_indic.loc[df_indic['Indicator Name'] == options[0]])
+                curr_element.reset_index()
+                st.write((curr_element.iloc[[0],[1]])) #get name of indic -- get it as text next.
 
     st.write()
     st.write()
