@@ -346,36 +346,47 @@ if option != 'Placeholder':
 
         st.markdown("<h6 style='text-align: center; color: black;'>What statistics are available to you?</h6>", unsafe_allow_html=True)
 
-        st.markdown("""
-            <style>
-                .custom-button {
-                    display: inline-block;
-                    background-color: #FFFFFF;
-                    color: black;
-                    text-align: center;
-                    padding: 10px 20px;
-                    margin: 5px;
-                    border-radius: 5px;
-                    width: auto;
-                    font-size: 14px;
-                    max-width: 400px;
-                    white-space: normal;
-                    word-wrap: break-word;
-                }
-                .custom-container {
-                    margin-bottom: 20px;
-                }
-            </style>
-        """, unsafe_allow_html=True)
+        with col1:
+            st.markdown("""
+                <style>
+                    .custom-button {
+                        display: inline-block;
+                        background-color: #FFFFFF;
+                        color: black;
+                        text-align: center;
+                        padding: 10px 20px;
+                        margin: 5px;
+                        border-radius: 5px;
+                        width: auto;
+                        font-size: 14px;
+                        max-width: 400px;
+                        white-space: normal;
+                        word-wrap: break-word;
+                    }
+                    .custom-container {
+                        margin-bottom: 20px;
+                    }
+                </style>
+            """, unsafe_allow_html=True)
 
-        with st.container(height = 200):
-            for element in all_indicators:
-                button_html = f'<button class="custom-button">{element}</button>'
-                st.markdown(button_html, unsafe_allow_html=True)
-        
+    # Header for the section
+
+            with st.container(height = 200):
+                for element in all_indicators:
+                    button_html = f'<button class="custom-button">{element}</button>'
+                    st.markdown(button_html, unsafe_allow_html=True)
+    
     with col2:
         st.markdown("<h6 style='text-align: center; color: black;'>What does each statistic mean?</h6>", unsafe_allow_html=True)
-        #st.write(all_indicators) indicates that all statistics are present.        
+
+        with st.container(height = 200):
+        
+            options = st.multiselect(
+            "",
+            all_indicators
+        ) 
+            if options == []:
+                st.success('Input an indicator name for more details.')
 
     st.write()
     st.write()
