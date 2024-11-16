@@ -215,7 +215,7 @@ if option != 'Placeholder':
             capita_html = f'''
             <div style="background-color: #f0f0f0; padding: 4px 12px; border-radius: 10px; display: flex; justify-content: center; align-items: center; width: fit-content; margin: 0 auto; text-align: center;">
                 <div style="display: flex; flex-direction: column; justify-content: center; align-items: center;">
-                    <div style="font-weight: bold; font-size: 1.5em; margin: 0; padding: 0; text-decoration: none; cursor: default;">GDP per Capita</div>
+                    <div style="font-weight: bold; font-size: 1.5em; margin: 0; padding: 0; text-decoration: none; cursor: default;">Per Capita</div>
                     <p style="font-size: 2em; margin: 0; padding: 0; text-decoration: none; cursor: default; pointer-events: none;">{capita_safe}</p>
                 </div>
             </div>
