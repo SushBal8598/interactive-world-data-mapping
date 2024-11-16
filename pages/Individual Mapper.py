@@ -343,6 +343,9 @@ if option != 'Placeholder':
     col1, col2 = st.columns(2)
 
     with col1:
+
+        st.markdown("<h6 style='text-align: center; color: black;'>What statistics are available to you?</h6>", unsafe_allow_html=True)
+
         st.markdown("""
             <style>
                 .custom-button {
@@ -365,10 +368,7 @@ if option != 'Placeholder':
             </style>
         """, unsafe_allow_html=True)
 
-# Header for the section
-        st.markdown("<h6 style='text-align: center; color: black;'>What statistics are available to you?</h6>", unsafe_allow_html=True)
-
-        with st.container(height = 120):
+        with st.container(height = 200):
             for element in all_indicators:
                 button_html = f'<button class="custom-button">{element}</button>'
                 st.markdown(button_html, unsafe_allow_html=True)
