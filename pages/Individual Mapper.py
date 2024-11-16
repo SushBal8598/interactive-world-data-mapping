@@ -262,6 +262,8 @@ if option != 'Placeholder':
             #unsafe_allow_html=True)
 
 
+        #begin data extraction for mass analysis
+
         scope = ["https://spreadsheets.google.com/feeds", "https://www.googleapis.com/auth/drive"]
         creds = ServiceAccountCredentials.from_json_keyfile_dict(st.secrets["google_sheets_credentials"], scope)
         client = gspread.authorize(creds)
