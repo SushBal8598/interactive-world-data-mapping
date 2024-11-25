@@ -151,9 +151,42 @@ if option != 'Placeholder':
 
         st.markdown(print_countries_info, unsafe_allow_html=True)
     
+    images_dict = {
+        'Argentina':"https://cdn.britannica.com/40/195440-050-B3859318/Congressional-Plaza-building-National-Congress-Buenos-Aires.jpg",
+        'Bolivia':"https://mediaim.expedia.com/destination/1/170eb17de2d7bbf1ed92aed5e6b7ffca.jpg",
+        'Brazil':"https://delivery.gfobcontent.com/api/public/content/74029628fb134f6a9fd4f93a31a2d35b?v=8f6a7999",
+        'Chile':"https://www.state.gov/wp-content/uploads/2019/04/Chile-e1556024428830-2496x1406.jpg",
+        'Colombia':"https://www.colombia-travels.com/wp-content/uploads/adobestock-266299444-1-1280x800.jpeg",
+        'Ecuador':"https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcQZ_WS_IR_jbyEbEWaa42GYzFu8RholFJW0hQ&s",
+        'Guyana':"https://i2.wp.com/photos.smugmug.com/photos/i-3gKgpFm/0/1be92393/O/i-3gKgpFm.jpg",
+        'Peru':"https://esghu4h79kf.exactdn.com/wp-content/uploads/2021/05/travel-packages-to-cusco-peru.png?strip=all&lossy=1&w=2560&ssl=1",
+        'Paraguay':"https://www.foyerglobalhealth.com/wp-content/uploads/2024/01/anton-lukin-_wBbSk2ffC4-unsplash-1568x882.jpg",
+        'Suriname':"https://etichotels.com/journal/wp-content/uploads/2023/11/10-Best-Cities-to-Visit-in-Suriname-ETIC-Hotels.jpg",
+        'Uruguay':"https://i.natgeofe.com/n/95f03509-126e-4daf-aa59-5d8990074619/cityscape-montevideo-uruguay.jpg?w=2560&h=1706",
+        'Venezuela':"https://www.state.gov/wp-content/uploads/2023/07/shutterstock_611942573v2.jpg"
+    }
+
+    captions_dict = {
+        'Argentina':"Congressional Plaza with the National Congress building at rear left, Buenos Aires. (Britannica)",
+        'Bolivia':"",
+        'Brazil':"",
+        'Chile':"",
+        'Colombia':"",
+        'Ecuador':"",
+        'Guyana':"",
+        'Peru':"",
+        'Paraguay':"",
+        'Suriname':"",
+        'Uruguay':"",
+        'Venezuela':""
+    }
+
+    caption_check = captions_dict[option]
+
     with col2:
         with st.container(height = 340, border=True):
-            st.markdown('<div style="text-align: center;">This section will be updated with a carousel of images!</div>', unsafe_allow_html=True)
+            get_link = images_dict[option]
+            st.image(get_link, caption=caption_check)
 
     columns = st.columns((1))
     with col1:
