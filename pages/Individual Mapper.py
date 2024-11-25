@@ -168,7 +168,7 @@ if option != 'Placeholder':
 
     captions_dict = {
         'Argentina':"Congressional Plaza with the National Congress building at rear left, Buenos Aires. (Britannica)",
-        'Bolivia':"",
+        'Bolivia':"Sucre, Bolivia with view of the Cathedral Basilica of Our Lady of Guadalupe. (Expedia)",
         'Brazil':"",
         'Chile':"",
         'Colombia':"",
