@@ -152,7 +152,8 @@ if option != 'Placeholder':
         st.markdown(print_countries_info, unsafe_allow_html=True)
     
     with col2:
-        st.markdown('<div style="text-align: center;">This section will be updated with a carousel of images!</div>', unsafe_allow_html=True)
+        with st.container(height = 340, border=True):
+            st.markdown('<div style="text-align: center;">This section will be updated with a carousel of images!</div>', unsafe_allow_html=True)
 
     columns = st.columns((1))
     with col1:
