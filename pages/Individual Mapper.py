@@ -101,7 +101,8 @@ if option != 'Placeholder':
     col1, col2, col3 , col4, col5 = st.columns(5)
 
     html_str = f"""<h2 style='text-align: center; color: black;'>{option}</h2>"""
-    st.markdown(html_str, unsafe_allow_html=True)
+    st.html(html_str)#, unsafe_allow_html=True)
+    #when usign HTML instead of md, don't need to include unsafe_html
 
     #italicize country name
     get_name = bynames[option]
@@ -117,7 +118,7 @@ if option != 'Placeholder':
 
     #fix the spacing issue.
 
-    st.markdown(country_byname, unsafe_allow_html=True)
+    st.html(country_byname)#, unsafe_allow_html=True)
 
     st.markdown(
     """
@@ -169,16 +170,16 @@ if option != 'Placeholder':
     captions_dict = {
         'Argentina':"Congressional Plaza with the National Congress building at rear left, Buenos Aires. (Britannica)",
         'Bolivia':"Sucre, Bolivia with view of the Cathedral Basilica of Our Lady of Guadalupe. (Expedia)",
-        'Brazil':"",
-        'Chile':"",
-        'Colombia':"",
-        'Ecuador':"",
-        'Guyana':"",
-        'Peru':"",
-        'Paraguay':"",
-        'Suriname':"",
-        'Uruguay':"",
-        'Venezuela':""
+        'Brazil':"View of Rio de Janeiro, with Sugarloaf Mountain in the background. (Cosmos)",
+        'Chile':"Overhead of the Carretera Austral, or Chilean Route 7 through Patagonia. (U.S. Dept. of State)",
+        'Colombia':"Street view of colorful houses within a neighborhood in Bogota. (Terra Colombia)",
+        'Ecuador':"Aerial view of Quito. (Go Galapagos)",
+        'Guyana':'View of Kaieteur Falls, the "largest single-drop waterfall in the world." (Wild Junket)',
+        'Peru':"Llamas in the frame of the historic Incan city of Machu Picchu. (Treehouse Lodge)",
+        'Paraguay':"Aerial view of Asunción. (Foyer Global)",
+        'Suriname':"Waterfront homes of Paramaribo, located adjactent to the Suriname River. (ETIC Hotels)",
+        'Uruguay':"Montevideo sunset skyline. (National Geographic)",
+        'Venezuela':"Caracas, with view of Avila National Park in the distance. (Alejandro Solo / Shutterstock)"
     }
 
     caption_check = captions_dict[option]
@@ -186,7 +187,38 @@ if option != 'Placeholder':
     with col2:
         with st.container(height = 340, border=True):
             get_link = images_dict[option]
-            st.image(get_link, caption=caption_check)
+
+            # Add custom CSS to center the image
+            st.markdown(
+                """
+                <style>
+                .centered-image {
+                    display: block;
+                    margin-left: auto;
+                    margin-right: auto;
+                }
+                .caption {
+                    text-align: center;
+                    font-style: italic;
+                    color: gray;
+                }
+                </style>
+                """, 
+                unsafe_allow_html=True
+            )
+
+            # Image URL
+            image_url = get_link
+
+            # Caption text
+            caption_text = caption_check
+
+            # Display the image and caption
+            st.markdown(f'<img src="{image_url}" class="centered-image" style="border: 4px solid black;">', unsafe_allow_html=True)
+            st.markdown(f'<p class="caption">{caption_text}</p>', unsafe_allow_html=True)
+
+
+            #st.image(get_link, caption=caption_check)
 
     columns = st.columns((1))
     with col1:
