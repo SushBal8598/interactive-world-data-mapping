@@ -408,22 +408,6 @@ if option != 'Placeholder':
 
     st.markdown("<h5 style='text-align: center; color: black;'>Ready to start plotting?</h5>", unsafe_allow_html=True)
 
-    #begin data extraction for mass analysis
-
-    #scope = ["https://spreadsheets.google.com/feeds", "https://www.googleapis.com/auth/drive"]
-    #creds = ServiceAccountCredentials.from_json_keyfile_dict(st.secrets["google_sheets_credentials"], scope)
-    #client = gspread.authorize(creds)
-
-    # Open the spreadsheet by its ID
-    #spreadsheet = client.open_by_key(st.secrets["google_sheets"]["spreadsheet_id"])
-
-
-    # Read data from the specific worksheet
-    #worksheet = spreadsheet.worksheet(option)
-    #data = worksheet.get_all_values()
-
-    # Convert the data into a DataFrame if needed
-    #df = pd.DataFrame(data)
     df = pd.DataFrame(data, columns = ['Country Name','Country Code','Indicator Name','Indicator Code',	'1960',
     '1961',	'1962','1963',	'1964', '1965','1966','1967','1968','1969','1970','1971','1972','1973','1974',
     '1975',	'1976',	'1977','1978','1979','1980','1981','1982','1983','1984','1985', '1986',	'1987',	'1988',	
