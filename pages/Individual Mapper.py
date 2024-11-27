@@ -68,8 +68,11 @@ df_indic = df_indic.reset_index()
 
 #begin web app
 
-st.markdown("<h1 style='text-align: center; color: black;'>Individual Country Mapper</h1>", unsafe_allow_html=True)
-st.markdown("<h5 style='text-align: center; color: black;'>Explore top-down overviews of specific countries.</h1>", unsafe_allow_html=True)
+html_str_title = (f"<h1 style='text-align: center; color: black;'>Individual Country Mapper</h1>")
+st.html(html_str_title)
+
+html_str_subtitle = (f"<h5 style='text-align: center; color: black;'>Explore top-down overviews of specific countries.</h1>")
+st.html(html_str_subtitle)
 
 bynames = {'Argentina': 'República Argentina', 
            'Bolivia':'Estado Plurinacional de Bolivia',
