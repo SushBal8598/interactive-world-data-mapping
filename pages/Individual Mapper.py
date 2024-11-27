@@ -215,7 +215,10 @@ if option != 'Placeholder':
 
             # Display the image and caption
             st.markdown(f'<img src="{image_url}" class="centered-image" style="border: 4px solid black;">', unsafe_allow_html=True)
-            st.markdown(f'<p class="caption">{caption_text}</p>', unsafe_allow_html=True)
+
+            caption_fp = (f'<p style="text-align: center; color:Black;">{caption_text}</p>')
+
+            st.markdown(caption_fp, unsafe_allow_html=True)
 
 
             #st.image(get_link, caption=caption_check)
