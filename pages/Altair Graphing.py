@@ -2,6 +2,11 @@ import streamlit as st
 import altair as alt
 import global_variables
 
+try:
+        st.title(st.session_state.option)
+except:
+        st.info('Navigate to Individual Mapper first.')
+
 col1,col2 = st.columns(2)
 
 with col1:

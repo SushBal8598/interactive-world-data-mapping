@@ -485,6 +485,8 @@ if option != 'Placeholder':
 
     with col2:
         if st.button("  Let's go!  "):
+            st.session_state.option = option
+
             st.switch_page("pages/Altair Graphing.py")
 
 else: 

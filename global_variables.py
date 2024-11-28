@@ -47,6 +47,3 @@ pop_df = pd.DataFrame(pop_data_2, columns = ['Country Name','Country Code','Indi
 spreadsheet_gdp = client.open_by_key(st.secrets["google_sheets"]["spreadsheet_id"])
 gdp_sheet = spreadsheet_gdp.worksheet('GDP_Data')
 gdp_data = gdp_sheet.get_all_values()
-
-
-
