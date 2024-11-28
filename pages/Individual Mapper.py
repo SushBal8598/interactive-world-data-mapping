@@ -412,7 +412,7 @@ if option != 'Placeholder':
     #add a wait
     time.sleep(2)
 
-    st.markdown("<h5 style='text-align: center; color: black;'>Ready to start plotting?</h5>", unsafe_allow_html=True)
+    st.html("<h5 style='text-align: center; color: black;'>Ready to start plotting?</h5>")
 
     df = pd.DataFrame(data, columns = ['Country Name','Country Code','Indicator Name','Indicator Code',	'1960',
     '1961',	'1962','1963',	'1964', '1965','1966','1967','1968','1969','1970','1971','1972','1973','1974',
@@ -428,9 +428,10 @@ if option != 'Placeholder':
 
     with col1:
 
-        st.markdown("<h6 style='text-align: center; color: black;'>What statistics are available to you?</h6>", unsafe_allow_html=True)
+        st.html("<h6 style='text-align: center; color: black;margin-bottom: -31px;'>What statistics are available to you?</h6>")
 
         with col1:
+
             st.markdown("""
                 <style>
                     .custom-button {
@@ -458,9 +459,10 @@ if option != 'Placeholder':
             with st.container(height = 200):
                 for element in all_indicators:
                     button_html = f'<button class="custom-button">{element}</button>'
-                    st.markdown(button_html, unsafe_allow_html=True)
+                    st.html(button_html)
     
     with col2:
+
         st.markdown("<h6 style='text-align: center; color: black;'>What does each statistic mean?</h6>", unsafe_allow_html=True)
 
         with st.container(height = 200):
