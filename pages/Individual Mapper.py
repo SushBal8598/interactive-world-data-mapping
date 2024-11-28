@@ -504,9 +504,11 @@ if option != 'Placeholder':
 
                     #origin of element
                     origin_element = (curr_element.at[curr_element_index, 'Indicator Source'])
-                    make_string_origin = f"<p style='text-align: center; color: black;'>{origin_element}</p>"
+                    make_string_origin = f"<p style='text-align: center; color: black; margin-bottom: -20px;'>{origin_element}</p>"
                     #indicator name
                     st.html(make_string_origin) #get name of indic -- get it as text next.
+
+                    st.divider()
 
     st.markdown("""
         <style>
