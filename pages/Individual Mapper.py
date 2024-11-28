@@ -18,6 +18,10 @@ from time import sleep
 
 import global_variables
 
+st.set_page_config(page_title="IWDM Individual Mapper",
+    page_icon="🗺️",
+)
+
 #streamlit run streamlit_app.py
 
 #Get statistics for all the indicators
