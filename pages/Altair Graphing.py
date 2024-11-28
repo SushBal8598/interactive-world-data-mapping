@@ -1,4 +1,5 @@
 import streamlit as st
+import altair as alt
 
 col1,col2 = st.columns(2)
 
