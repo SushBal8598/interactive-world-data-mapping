@@ -16,6 +16,8 @@ import html
 import time
 from time import sleep
 
+import global_variables
+
 #streamlit run streamlit_app.py
 
 #Get statistics for all the indicators
@@ -463,7 +465,7 @@ if option != 'Placeholder':
     
     with col2:
 
-        st.markdown("<h6 style='text-align: center; color: black;'>What does each statistic mean?</h6>", unsafe_allow_html=True)
+        st.html("<h6 style='text-align: center; color: black;margin-bottom: -15px;'>What does each statistic mean?</h6>")
 
         with st.container(height = 200):
         
@@ -475,10 +477,16 @@ if option != 'Placeholder':
                 st.success('Input an indicator name for more details.')
             else:
                 for element in options:
+                    #indicator name
+                    indicator_name = f"<p style='text-align: center; color: black; font-weight:bold;'>{'Indicator Name'}</p>"
+                    st.html(indicator_name)
+
                     curr_element = (df_indic.loc[df_indic['Indicator Name'] == element])
                     curr_element_index = curr_element.index[0]
+                    write_element = (curr_element.at[curr_element_index, 'Indicator Name'])
+                    make_string = f"<p style='text-align: center; color: black;'>{write_element}</p>"
                     #indicator name
-                    st.write(curr_element.at[curr_element_index, 'Indicator Name']) #get name of indic -- get it as text next.
+                    st.html(make_string) #get name of indic -- get it as text next.
 
     st.markdown("""
         <style>
@@ -488,6 +496,8 @@ if option != 'Placeholder':
         </style>
     """, unsafe_allow_html=True)
 
+    #st.write(global_variables.my_test)
+    #we should be able to instance dataframes once, then work off of that
 
     col1, col2 = st.columns(2)
 
