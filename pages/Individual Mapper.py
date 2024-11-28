@@ -478,15 +478,35 @@ if option != 'Placeholder':
             else:
                 for element in options:
                     #indicator name
-                    indicator_name = f"<p style='text-align: center; color: black; font-weight:bold;'>{'Indicator Name'}</p>"
+                    indicator_name = f"<p style='text-align: center; color: black; margin-bottom: -15px;font-weight:bold;'>{'Indicator Name'}</p>"
                     st.html(indicator_name)
 
                     curr_element = (df_indic.loc[df_indic['Indicator Name'] == element])
                     curr_element_index = curr_element.index[0]
+
+                    #name of element
                     write_element = (curr_element.at[curr_element_index, 'Indicator Name'])
                     make_string = f"<p style='text-align: center; color: black;'>{write_element}</p>"
                     #indicator name
                     st.html(make_string) #get name of indic -- get it as text next.
+
+                    indicator_desc = f"<p style='text-align: center; color: black; margin-bottom: -15px;font-weight:bold;'>{'Indicator Description'}</p>"
+                    st.html(indicator_desc)
+
+                    #origin of element
+                    desc_element = (curr_element.at[curr_element_index, 'Indicator Description'])
+                    make_string_desc = f"<p style='text-align: center; color: black;'>{desc_element}</p>"
+                    #indicator name
+                    st.html(make_string_desc) #get name of indic -- get it as text next.
+                    
+                    indicator_origin = f"<p style='text-align: center; color: black; margin-bottom: -15px;font-weight:bold;'>{'Indicator Source'}</p>"
+                    st.html(indicator_origin)
+
+                    #origin of element
+                    origin_element = (curr_element.at[curr_element_index, 'Indicator Source'])
+                    make_string_origin = f"<p style='text-align: center; color: black;'>{origin_element}</p>"
+                    #indicator name
+                    st.html(make_string_origin) #get name of indic -- get it as text next.
 
     st.markdown("""
         <style>
