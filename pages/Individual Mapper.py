@@ -409,7 +409,7 @@ if option != 'Placeholder':
             value= st.session_state['slider_value'])
 
     if slider_value == 2023:
-        st.success('Choose a year to generate insights for.')
+        st.info('Choose a year to generate insights for.')
 
     if slider_value != st.session_state['slider_value']:
         st.session_state['slider_value'] = slider_value
@@ -478,7 +478,7 @@ if option != 'Placeholder':
             all_indicators
         ) 
             if options == []:
-                st.success('Input an indicator name for more details.')
+                st.info('Input an indicator name for more details.')
             else:
                 for element in options:
                     #indicator name
@@ -536,4 +536,4 @@ if option != 'Placeholder':
             st.switch_page("pages/Altair Graphing.py")
 
 else: 
-    st.success('Select a country above to proceed.')
+    st.info('Select a country above to proceed.')
