@@ -396,11 +396,6 @@ if option != 'Placeholder':
         
         st.markdown(poverty_html, unsafe_allow_html=True)  
 
-        #tackle Venezuela, RB issue tmrw
-
-        #st.markdown(make_gdp_tag,
-        #unsafe_allow_html=True)
-
     col1 = st.columns(1)[0]
 
     slider_value = st.slider(label="", 
@@ -426,9 +421,6 @@ if option != 'Placeholder':
     '1989',	'1990',	'1991',	'1992',	'1993',	'1994',	'1995',	'1996',	'1997',	'1998',	'1999',	'2000',	'2001',	'2002',	
     '2003',	'2004',	'2005',	'2006',	'2007',	'2008',	'2009',	'2010',	'2011',	'2012',	'2013',	'2014',	'2015',	'2016',	
     '2017',	'2018','2019','2020','2021','2022','2023'])
-
-    #st.write(df)  # Display the data in the Streamlit app
-    #st.write(df.columns)
 
     col1, col2 = st.columns(2)
 
