@@ -103,13 +103,13 @@ if option != 'Placeholder':
 
     col1, col2, col3 , col4, col5 = st.columns(5)
 
-    html_str = f"""<h2 style='text-align: center; color: black;'>{option}</h2>"""
+    html_str = f"""<h2 style='text-align: center; color: black; margin-bottom: -50px;'>{option}</h2>"""
     st.html(html_str)#, unsafe_allow_html=True)
     #when usign HTML instead of md, don't need to include unsafe_html
 
     #italicize country name
     get_name = bynames[option]
-    country_byname = f"""<h4 style='text-align: center; color: black;'><em>{get_name}</em></h4>"""
+    country_byname = f"""<h4 style='text-align: center; color: black;margin-bottom: -20px;'><em>{get_name}</em></h4>"""
     
     st.markdown("""
     <style>
@@ -217,7 +217,7 @@ if option != 'Placeholder':
             caption_text = caption_check
 
             # Display the image and caption
-            st.markdown(f'<img src="{image_url}" class="centered-image" style="border: 4px solid black;">', unsafe_allow_html=True)
+            st.markdown(f'<img src="{image_url}" class="centered-image" style="border: 4px solid black;margin-bottom: 10px;">', unsafe_allow_html=True)
 
             caption_fp = (f'<p style="text-align: center; color:Black;">{caption_text}</p>')
 
@@ -474,32 +474,30 @@ if option != 'Placeholder':
             if options == []:
                 st.success('Input an indicator name for more details.')
             else:
-                curr_element = (df_indic.loc[df_indic['Indicator Name'] == options[0]])
-                curr_element_index = curr_element.index[0]
-                st.write(curr_element.at[curr_element_index, 'Indicator Name']) #get name of indic -- get it as text next.
+                for element in options:
+                    curr_element = (df_indic.loc[df_indic['Indicator Name'] == element])
+                    curr_element_index = curr_element.index[0]
+                    #indicator name
+                    st.write(curr_element.at[curr_element_index, 'Indicator Name']) #get name of indic -- get it as text next.
 
-    st.write()
-    st.write()
-    st.write()
+    st.markdown("""
+        <style>
+        .stContainer {
+            margin-bottom: 500px; 
+        }
+        </style>
+    """, unsafe_allow_html=True)
+
 
     col1, col2 = st.columns(2)
 
-    with col1:
-        option_mapping = st.selectbox(
-        "Select a pre-loaded statistics set, or continue with custom.",
-        ("Poverty", "Custom"),
-)
-        
-        if option_mapping == 'Custom':
-            option_stats = st.selectbox(
-        "Select custom statistics to plot.",
-        ("Num1", "Num2"),
-)
+    #custom mapping, move to alternate page -- need altair plots
 
-        option_library = st.selectbox(
-        "Select a plot to graph against.",
-        ("Scatterplot", "Lineplot", 'Boxplot', 'Bubble Chart'),
-)
+    col1, col2, col3 = st.columns(3)
+
+    with col2:
+        if st.button("  Let's go!  "):
+            st.switch_page("pages/Altair Graphing.py")
 
 else: 
     st.success('Select a country above to proceed.')
