@@ -16,6 +16,11 @@ import html
 import time
 from time import sleep
 
+import sys
+import os
+
+sys.path.append(os.path.abspath(os.path.join(os.path.dirname(__file__), '..')))
+
 import global_variables
 
 st.set_page_config(page_title="IWDM Individual Mapper",
@@ -23,20 +28,6 @@ st.set_page_config(page_title="IWDM Individual Mapper",
 )
 
 #streamlit run streamlit_app.py
-
-#Get statistics for all the indicators
-
-scope = ["https://spreadsheets.google.com/feeds", "https://www.googleapis.com/auth/drive"]
-creds = ServiceAccountCredentials.from_json_keyfile_dict(st.secrets["google_sheets_credentials"], scope)
-client = gspread.authorize(creds)
-
-#Open the spreadsheet by its ID
-spreadsheet = client.open_by_key(st.secrets["google_sheets"]["spreadsheet_id"])
-
-
-# Read data from the specific worksheet
-worksheet = spreadsheet.worksheet('IndicatorNames')
-data = worksheet.get_all_values()
 
 #intro dict
 countries_intro_dict = {
@@ -53,24 +44,6 @@ countries_intro_dict = {
     'Uruguay':"Uruguay, located on the southeastern coast of South America, is known for its high quality of life, progressive social policies, and vibrant culture. It is bordered by Argentina to the west, Brazil to the north, and the Atlantic Ocean to the southeast. Montevideo, the capital, is a lively city with a rich cultural scene, from tango and candombe music to a thriving arts community. Uruguay has a stable economy, largely driven by agriculture, livestock, and renewable energy. Known for its beautiful beaches, lush countryside, and passionate football (soccer) culture, Uruguay is a small country with a big global reputation.",
     'Venezuela':"Venezuela, located on the northern coast of South America, is a country of dramatic natural beauty, from the Andes mountains to the vast plains of the Llanos and the tropical rainforests of the Amazon. Caracas, the capital, is a vibrant yet politically complex city. Known for its oil wealth, Venezuela's economy has faced significant challenges in recent years, leading to social and political unrest. Despite this, the country remains rich in natural resources, including vast petroleum reserves, gold, and diamonds. Venezuela also boasts stunning landscapes like Angel Falls, the world's highest uninterrupted waterfall, and a diverse mix of cultures and traditions."
 }
-
-# Convert the data into a DataFrame if needed
-#df = pd.DataFrame(data)
-df = pd.DataFrame(data, columns = ['Indicator Name'])
-df = df.reset_index()
-
-all_indicators = []
-
-for index, row in df.iterrows():
-    all_indicators.append(row['Indicator Name'])
-
-all_indicators = all_indicators[1:] #remove the first row
-
-worksheet = spreadsheet.worksheet('Indic_MetaData')
-data = worksheet.get_all_values()
-
-df_indic = pd.DataFrame(data, columns = ['Indicator Name', 'Indicator Description','Indicator Source'])
-df_indic = df_indic.reset_index()
 
 #begin web app
 
@@ -455,7 +428,7 @@ if option != 'Placeholder':
     # Header for the section
 
             with st.container(height = 200):
-                for element in all_indicators:
+                for element in global_variables.all_indicators:
                     button_html = f'<button class="custom-button">{element}</button>'
                     st.html(button_html)
     
@@ -467,7 +440,7 @@ if option != 'Placeholder':
         
             options = st.multiselect(
             "",
-            all_indicators
+            global_variables.all_indicators
         ) 
             if options == []:
                 st.info('Input an indicator name for more details.')
@@ -477,7 +450,7 @@ if option != 'Placeholder':
                     indicator_name = f"<p style='text-align: center; color: black; margin-bottom: -15px;font-weight:bold;'>{'Indicator Name'}</p>"
                     st.html(indicator_name)
 
-                    curr_element = (df_indic.loc[df_indic['Indicator Name'] == element])
+                    curr_element = (global_variables.df_indic.loc[global_variables.df_indic['Indicator Name'] == element])
                     curr_element_index = curr_element.index[0]
 
                     #name of element
