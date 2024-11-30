@@ -18,13 +18,7 @@ with col1:
 
         option_mapping = st.selectbox(
         "Select a pre-loaded statistics set, or continue with custom.",
-        ("Poverty", "Education","Agriculture","Custom"),
-)
-        
-        if option_mapping == 'Custom':
-            option_stats = st.selectbox(
-        "Select custom statistics to plot.",
-        ("Num1", "Num2"),
+        ("Custom", "Poverty", "Education","Land and Agriculture","Exports, Imports, and Trade", "War and Mortality", "Economy", "Health and Disease", "Politics and Aid"),
 )
 
         option_library = st.selectbox(
@@ -34,5 +28,11 @@ with col1:
 
 with col2:
         st.html("<h6 style='text-align: center; color: black;margin-bottom: -25px;'>Step 2: Validate Request</h6>")
+        with st.container(height = 200):
+        
+            options = st.multiselect(
+            "",
+            global_variables.all_indicators
+        ) 
 #test global stuff      
 #st.write(global_variables.df) #successful; should be able to initialize as necessary
