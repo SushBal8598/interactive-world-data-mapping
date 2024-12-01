@@ -29,7 +29,7 @@ try:
 
                 option_library = st.selectbox(
                 "Select a plot to graph against.",
-                ("Scatterplot", "Lineplot", 'Boxplot', 'Bubble Chart'),
+                ("Scatterplot", "Lineplot", 'Boxplot', 'Bar Chart'),
         )
                 option_independent = st.selectbox(
                 "Select the independent variable.",
@@ -320,16 +320,50 @@ try:
 
                         col1, col2, col3 = st.columns(3)
                         with col2:
-                                st.html("<h6 style='text-align: center; color: black;margin-bottom: -30px;'>Indicator Date</h6>")
+                                st.html("<h6 style='text-align: center; color: black;margin-bottom: -10px;margin-top: 10px;'>Indicator Data</h6>")
+                        
+                        #mark_line()
+                        if option_library == 'Scatterplot':
+                                chart = alt.Chart(resulting_frame).mark_circle(size=60).encode(
+                                        x=alt.X('Year', title='Year', sort='ascending', scale=alt.Scale(domain=[1960, resulting_frame['Year'].max()])),
+                                        y=alt.Y('Value', title='Value', axis=alt.Axis(tickCount=5)),
+                                        color='Indicator',
+                                        tooltip=['Year', 'Value', 'Indicator']
+                                        ).interactive()
 
-                        chart = alt.Chart(resulting_frame).mark_circle(size=60).encode(
-                                x=alt.X('Year', title='Year', sort='ascending', scale=alt.Scale(domain=[1960, resulting_frame['Year'].max()])),
-                                y=alt.Y('Value', title='Value', axis=alt.Axis(tickCount=5)),
-                                color='Indicator',
-                                tooltip=['Year', 'Value', 'Indicator']
+                                st.altair_chart(chart, use_container_width = True)
+                        
+                        elif option_library == 'Lineplot':
+                                chart = alt.Chart(resulting_frame).mark_line().encode(
+                                        x=alt.X('Year', title='Year', sort='ascending', scale=alt.Scale(domain=[1960, resulting_frame['Year'].max()])),
+                                        y=alt.Y('Value', title='Value', axis=alt.Axis(tickCount=5)),
+                                        color='Indicator',
+                                        tooltip=['Year', 'Value', 'Indicator']
+                                        ).interactive()
+                        
+                                st.altair_chart(chart, use_container_width = True)
+
+                        elif option_library == 'Boxplot':
+                                chart = alt.Chart(resulting_frame).mark_boxplot(extent="min-max").encode(
+                                        alt.X('Value:Q', title='Value').scale(zero=False),
+                                        alt.Y("Indicator:N"),
+                                        ).interactive()
+
+                                st.altair_chart(chart, use_container_width = True)
+
+                        elif option_library == 'Bar Chart': 
+                                chart = alt.Chart(resulting_frame).mark_bar().encode(
+                                        x='Year',
+                                        y='Value',
+                                        color='Indicator',
+                                        tooltip=['Year', 'Value', 'Indicator']
                                 ).interactive()
-
-                        st.altair_chart(chart, use_container_width = True)
+                                
+                                st.altair_chart(chart, use_container_width = True)
+                        
+                        if len(selected_choices) > 25:
+                                st.html("<p style='text-align: center; color: black;margin-bottom: -10px;margin-top: -20px;'>Indicator overload! Some data may not be shown.</p>")
+    
                 else:
                         option_independent = option_independent
 except:
