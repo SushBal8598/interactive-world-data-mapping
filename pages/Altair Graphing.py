@@ -363,6 +363,11 @@ try:
                         
                         if len(selected_choices) > 25:
                                 st.html("<p style='text-align: center; color: black;margin-bottom: -10px;margin-top: -20px;'>Indicator overload! Some data may not be shown.</p>")
+
+                        st.html("<h5 style='text-align: center; color: black;margin-bottom: -10px;margin-top: 10px;'>Statistical Summary</h5>")
+                        col1, col2 = st.columns(2)
+
+                        #include indicator units and then general statistical stuff
     
                 else:
                         option_independent = option_independent
