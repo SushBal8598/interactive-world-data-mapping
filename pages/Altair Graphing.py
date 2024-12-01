@@ -1,6 +1,9 @@
 import streamlit as st
 import altair as alt
 import global_variables
+import numpy as np
+
+can_go = False
 
 try:
         indiv_title = (f"<h1 style='text-align: center; color: black;margin-bottom: -50px;'>Individual Visualization:</h1>")
@@ -8,6 +11,8 @@ try:
 
         named_title = (f"<h1 style='text-align: center; color: black; text-decoration: underline;'>{st.session_state.option}</h1>")
         st.html(named_title)
+
+        can_go = True
 
         col1,col2 = st.columns(2)
 
@@ -120,11 +125,29 @@ try:
                         independent_library_str = f"<p style='text-align: center; color: black;margin-bottom: 3px;'>{option_independent}</p>"
                         st.html(independent_library_str)
                         
-                        col1, col2, col3 = st.columns(3)
-                        with col2:
-                                if st.button("Generate"):
-                                        st.write('ok') #center
-                                        #format data
+                        if len(selected_choices) == 0:
+                                st.info('You need to select metrics first!')
+                        else:
+                                col1, col2, col3 = st.columns(3)
+                                continue_to_plot = False
+                                with col2:
+                                        if st.button("Generate"):
+                                                continue_to_plot = True
+                                                #format data
 
+        if continue_to_plot == True:
+                if option_independent == 'Year (Time Series)':
+                        years = global_variables.years_list
+                        choices_to_plot = selected_choices
+                        resulting_values = []
+                        for element in choices_to_plot:
+                                print('test')
+                                #resulting_values.append(global_variables.pop_df)
+                        
+                        st.write(global_variables.df_for_plot)
+                        #form: year, value, indicator
+                else:
+                        option_independent = option_independent
 except:
-        st.info('Navigate to Individual Mapper first.')
+        if can_go == False:
+                st.info('Navigate to Individual Mapper first.')
