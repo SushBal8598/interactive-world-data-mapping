@@ -25,7 +25,7 @@ try:
         )
                 option_independent = st.selectbox(
                 "Select the independent variable.",
-                ("Year (Time Series)"),
+                ("Year (Time Series)", 'Custom'),
                 )
 
         with col2:
@@ -94,7 +94,6 @@ try:
         with col1:
                 
                 st.html("<h6 style='text-align: center; color: black;margin-bottom: -15px;'>Selected Indicators</h6>")
-                print(len(selected_choices))
                 if len(selected_choices) > 0:
                         with st.container(height = 200):
                                 
@@ -114,15 +113,18 @@ try:
 
                 with st.container(height = 200):
                         st.html("<h6 style='text-align: center; color: black;margin-bottom: -30px;'>Plot type:</h6>")
-                        option_library_str = f"<h6 style='text-align: center; color: black;margin-bottom: -10px;'>{option_library}</h6>"
+                        option_library_str = f"<p style='text-align: center; color: black;margin-bottom: -10px;'>{option_library}</p>"
                         st.html(option_library_str)
 
                         st.html("<h6 style='text-align: center; color: black;margin-bottom: -30px;'>Independent variable:</h6>")
-                        independent_library_str = f"<h6 style='text-align: center; color: black;margin-bottom: -10px;'>{option_independent}</h6>"
+                        independent_library_str = f"<p style='text-align: center; color: black;margin-bottom: 3px;'>{option_independent}</p>"
                         st.html(independent_library_str)
-
-                        if st.button("  Let's go!  "):
-                                st.write('ok')
+                        
+                        col1, col2, col3 = st.columns(3)
+                        with col2:
+                                if st.button("Generate"):
+                                        st.write('ok') #center
+                                        #format data
 
 except:
         st.info('Navigate to Individual Mapper first.')
