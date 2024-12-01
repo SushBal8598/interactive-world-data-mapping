@@ -159,7 +159,6 @@ try:
                                                 indicators.append(element)
                                         merge_frame = pd.DataFrame({'Year': years, 'Value': resulting_values, 'Indicator': indicators})
                                         resulting_frame = pd.concat([resulting_frame, merge_frame])
-                                st.dataframe(resulting_frame)
                                 
                         elif get_option_title == 'Bolivia':
                                 for element in selected_choices:
@@ -175,7 +174,6 @@ try:
                                                 indicators.append(element)
                                         merge_frame = pd.DataFrame({'Year': years, 'Value': resulting_values, 'Indicator': indicators})
                                         resulting_frame = pd.concat([resulting_frame, merge_frame])
-                                st.dataframe(resulting_frame)
                         elif get_option_title == 'Brazil':
                                 for element in selected_choices:
                                         resulting_values = []
@@ -190,7 +188,6 @@ try:
                                                 indicators.append(element)
                                         merge_frame = pd.DataFrame({'Year': years, 'Value': resulting_values, 'Indicator': indicators})
                                         resulting_frame = pd.concat([resulting_frame, merge_frame])
-                                st.dataframe(resulting_frame)
                         elif get_option_title == 'Chile':
                                 for element in selected_choices:
                                         resulting_values = []
@@ -205,7 +202,6 @@ try:
                                                 indicators.append(element)
                                         merge_frame = pd.DataFrame({'Year': years, 'Value': resulting_values, 'Indicator': indicators})
                                         resulting_frame = pd.concat([resulting_frame, merge_frame])
-                                st.dataframe(resulting_frame)
                         elif get_option_title == 'Colombia':
                                 for element in selected_choices:
                                         resulting_values = []
@@ -220,7 +216,6 @@ try:
                                                 indicators.append(element)
                                         merge_frame = pd.DataFrame({'Year': years, 'Value': resulting_values, 'Indicator': indicators})
                                         resulting_frame = pd.concat([resulting_frame, merge_frame])
-                                st.dataframe(resulting_frame)
                         elif get_option_title == 'Ecuador':
                                 for element in selected_choices:
                                         resulting_values = []
@@ -235,7 +230,6 @@ try:
                                                 indicators.append(element)
                                         merge_frame = pd.DataFrame({'Year': years, 'Value': resulting_values, 'Indicator': indicators})
                                         resulting_frame = pd.concat([resulting_frame, merge_frame])
-                                st.dataframe(resulting_frame)
                         elif get_option_title == 'Guyana':
                                 for element in selected_choices:
                                         resulting_values = []
@@ -250,7 +244,6 @@ try:
                                                 indicators.append(element)
                                         merge_frame = pd.DataFrame({'Year': years, 'Value': resulting_values, 'Indicator': indicators})
                                         resulting_frame = pd.concat([resulting_frame, merge_frame])
-                                st.dataframe(resulting_frame)
                         elif get_option_title == 'Paraguay':
                                 for element in selected_choices:
                                         resulting_values = []
@@ -265,7 +258,6 @@ try:
                                                 indicators.append(element)
                                         merge_frame = pd.DataFrame({'Year': years, 'Value': resulting_values, 'Indicator': indicators})
                                         resulting_frame = pd.concat([resulting_frame, merge_frame])
-                                st.dataframe(resulting_frame)
                         elif get_option_title == 'Peru':
                                 for element in selected_choices:
                                         resulting_values = []
@@ -280,7 +272,6 @@ try:
                                                 indicators.append(element)
                                         merge_frame = pd.DataFrame({'Year': years, 'Value': resulting_values, 'Indicator': indicators})
                                         resulting_frame = pd.concat([resulting_frame, merge_frame])
-                                st.dataframe(resulting_frame)
                         elif get_option_title == 'Suriname':
                                 for element in selected_choices:
                                         resulting_values = []
@@ -295,7 +286,6 @@ try:
                                                 indicators.append(element)
                                         merge_frame = pd.DataFrame({'Year': years, 'Value': resulting_values, 'Indicator': indicators})
                                         resulting_frame = pd.concat([resulting_frame, merge_frame])
-                                st.dataframe(resulting_frame)
                         elif get_option_title == 'Uruguay':
                                 for element in selected_choices:
                                         resulting_values = []
@@ -310,7 +300,6 @@ try:
                                                 indicators.append(element)
                                         merge_frame = pd.DataFrame({'Year': years, 'Value': resulting_values, 'Indicator': indicators})
                                         resulting_frame = pd.concat([resulting_frame, merge_frame])
-                                st.dataframe(resulting_frame)
                         elif get_option_title == 'Venezuela':
                                 for element in selected_choices:
                                         resulting_values = []
@@ -325,11 +314,15 @@ try:
                                                 indicators.append(element)
                                         merge_frame = pd.DataFrame({'Year': years, 'Value': resulting_values, 'Indicator': indicators})
                                         resulting_frame = pd.concat([resulting_frame, merge_frame])
-                                st.dataframe(resulting_frame)
                         
                         resulting_frame['Year'] = pd.to_numeric(resulting_frame['Year'], errors='coerce') 
                         resulting_frame['Value'] = pd.to_numeric(resulting_frame['Value'], errors='coerce')
-                        chart = alt.Chart(resulting_frame, title = 'Indicator Data').mark_circle(size=60).encode(
+
+                        col1, col2, col3 = st.columns(3)
+                        with col2:
+                                st.html("<h6 style='text-align: center; color: black;margin-bottom: -30px;'>Indicator Date</h6>")
+
+                        chart = alt.Chart(resulting_frame).mark_circle(size=60).encode(
                                 x=alt.X('Year', title='Year', sort='ascending', scale=alt.Scale(domain=[1960, resulting_frame['Year'].max()])),
                                 y=alt.Y('Value', title='Value', axis=alt.Axis(tickCount=5)),
                                 color='Indicator',
