@@ -2,6 +2,7 @@ import streamlit as st
 import altair as alt
 import global_variables
 import numpy as np
+import pandas as pd
 
 can_go = False
 
@@ -135,39 +136,50 @@ try:
                                 with col2:
                                         if st.button("Generate"):
                                                 continue_to_plot = True
-                                                #format data
+                                                #format data: year, value, 
 
         if continue_to_plot == True:
                 if option_independent == 'Year (Time Series)':
                         years = global_variables.years_list
                         choices_to_plot = selected_choices
                         resulting_values = []
-                        for element in choices_to_plot:
-                                print('test')
-                                #resulting_values.append(global_variables.pop_df)
                         if get_option_title == 'Argentina':
+                                resulting_frame = pd.DataFrame()
+                                #for element in selected_choices:
+                                        #resulting_values.append()
                                 st.write(global_variables.argentina_dataset)
                         elif get_option_title == 'Bolivia':
+                                resulting_frame = pd.DataFrame()
                                 st.write(global_variables.bolivia_dataset)
                         elif get_option_title == 'Brazil':
+                                resulting_frame = pd.DataFrame()
                                 st.write(global_variables.brazil_dataset)
                         elif get_option_title == 'Chile':
+                                resulting_frame = pd.DataFrame()
                                 st.write(global_variables.chile_dataset)
                         elif get_option_title == 'Colombia':
+                                resulting_frame = pd.DataFrame()
                                 st.write(global_variables.colombia_dataset)
                         elif get_option_title == 'Ecuador':
+                                resulting_frame = pd.DataFrame()
                                 st.write(global_variables.ecuador_dataset)
                         elif get_option_title == 'Guyana':
+                                resulting_frame = pd.DataFrame()
                                 st.write(global_variables.guyana_dataset)
                         elif get_option_title == 'Paraguay':
+                                resulting_frame = pd.DataFrame()
                                 st.write(global_variables.paraguay_dataset)
                         elif get_option_title == 'Peru':
+                                resulting_frame = pd.DataFrame()
                                 st.write(global_variables.peru_dataset)
                         elif get_option_title == 'Suriname':
+                                resulting_frame = pd.DataFrame()
                                 st.write(global_variables.suriname_dataset)
                         elif get_option_title == 'Uruguay':
+                                resulting_frame = pd.DataFrame()
                                 st.write(global_variables.uruguay_dataset)
                         elif get_option_title == 'Venezuela':
+                                resulting_frame = pd.DataFrame()
                                 st.write(global_variables.venezuela_dataset)
                         #form: year, value, indicator
                 else:
