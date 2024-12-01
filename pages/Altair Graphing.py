@@ -145,8 +145,30 @@ try:
                         for element in choices_to_plot:
                                 print('test')
                                 #resulting_values.append(global_variables.pop_df)
-                        
-                        st.write('test')
+                        if get_option_title == 'Argentina':
+                                st.write(global_variables.argentina_dataset)
+                        elif get_option_title == 'Bolivia':
+                                st.write(global_variables.bolivia_dataset)
+                        elif get_option_title == 'Brazil':
+                                st.write(global_variables.brazil_dataset)
+                        elif get_option_title == 'Chile':
+                                st.write(global_variables.chile_dataset)
+                        elif get_option_title == 'Colombia':
+                                st.write(global_variables.colombia_dataset)
+                        elif get_option_title == 'Ecuador':
+                                st.write(global_variables.ecuador_dataset)
+                        elif get_option_title == 'Guyana':
+                                st.write(global_variables.guyana_dataset)
+                        elif get_option_title == 'Paraguay':
+                                st.write(global_variables.paraguay_dataset)
+                        elif get_option_title == 'Peru':
+                                st.write(global_variables.peru_dataset)
+                        elif get_option_title == 'Suriname':
+                                st.write(global_variables.suriname_dataset)
+                        elif get_option_title == 'Uruguay':
+                                st.write(global_variables.uruguay_dataset)
+                        elif get_option_title == 'Venezuela':
+                                st.write(global_variables.venezuela_dataset)
                         #form: year, value, indicator
                 else:
                         option_independent = option_independent
