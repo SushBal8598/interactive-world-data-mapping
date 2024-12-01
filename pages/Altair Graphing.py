@@ -11,6 +11,8 @@ try:
 
         named_title = (f"<h1 style='text-align: center; color: black; text-decoration: underline;'>{st.session_state.option}</h1>")
         st.html(named_title)
+        
+        get_option_title = st.session_state.option
 
         can_go = True
 
@@ -144,7 +146,7 @@ try:
                                 print('test')
                                 #resulting_values.append(global_variables.pop_df)
                         
-                        st.write(global_variables.df_for_plot)
+                        st.write('test')
                         #form: year, value, indicator
                 else:
                         option_independent = option_independent
