@@ -145,9 +145,9 @@ try:
                         resulting_values = []
                         if get_option_title == 'Argentina':
                                 resulting_frame = pd.DataFrame()
+                                #test_review = global_variables.argentina_dataset.loc['']
                                 #for element in selected_choices:
                                         #resulting_values.append()
-                                st.write(global_variables.argentina_dataset)
                         elif get_option_title == 'Bolivia':
                                 resulting_frame = pd.DataFrame()
                                 st.write(global_variables.bolivia_dataset)
