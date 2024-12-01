@@ -143,8 +143,24 @@ try:
                         years = global_variables.years_list
                         choices_to_plot = selected_choices
                         resulting_values = []
+                        indicators = []
+                        resulting_frame = pd.DataFrame()
                         if get_option_title == 'Argentina':
-                                resulting_frame = pd.DataFrame()
+                                for element in selected_choices:
+                                        resulting_values = []
+                                        indicators = []
+                                        index = global_variables.argentina_dataset.loc[global_variables.argentina_dataset['Indicator Name'] == element].index[0]
+                                        for year in years:
+                                                val = global_variables.argentina_dataset.at[index, year]
+                                                if val == '':
+                                                        resulting_values.append('N/A')
+                                                else:
+                                                        resulting_values.append(global_variables.argentina_dataset.at[index, year])
+                                                indicators.append(element)
+                                        merge_frame = pd.DataFrame({'Year': years, 'Value': resulting_values, 'Indicator': indicators})
+                                        resulting_frame = pd.concat([resulting_frame, merge_frame])
+                                print(resulting_frame.head())  # Check the first few rows of the DataFrame
+                                st.dataframe(resulting_frame)
                                 #test_review = global_variables.argentina_dataset.loc['']
                                 #for element in selected_choices:
                                         #resulting_values.append()
