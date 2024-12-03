@@ -38,15 +38,27 @@ arg_test_2 = pd.DataFrame({'Indicator Name': 'Computer, communications and other
 
 arg_test_2 = arg_test_2.set_index('Year')
 
-arg_test_2.fillna(method='ffill', inplace=True)
+arg_test_2 = arg_test_2.fillna(method='ffill', inplace=True)
 
 p, d, q = 1, 0, 1
-model = ARIMA(arg_test_2["Values"], order=(p, d, q))
+model = ARIMA(arg_test_2["Values"].astype(float), order=(p, d, q))
 model_fit = model.fit()
 model_summary = model_fit.summary()
 model_summary
 
+#data = arg_test_2['Values']
+#train_size = int(len(data) * 0.8)
+#train, test = data[:train_size], data[train_size:]
 
-st.dataframe(arg_test_2)
+# Fit the model to training data. Replace p, d, q with our ARIMA parameters
+#model = ARIMA(train.astype(float), order=(p, d, q))  
+
+# Forecast
+#forecast = model_fit.forecast(steps=len(test))
+
+#st.write(forecast)
+
+
+#st.dataframe(arg_test_2)
 
 
