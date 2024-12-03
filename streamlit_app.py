@@ -15,5 +15,5 @@ st.write(
 
 if st.button("Single View"):
     st.switch_page("pages/Individual Mapper.py")
-
-st.button('Multi-View')
+elif st.button("Multi-View"):
+    st.switch_page("pages/Regional Mapper.py")

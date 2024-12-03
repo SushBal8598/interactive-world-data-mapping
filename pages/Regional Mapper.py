@@ -1,29 +1,39 @@
 import streamlit as st
 import geopandas as gpd
 import matplotlib.pyplot as plt
+import altair as alt
+from vega_datasets import data
 
 #Initialize the WORLD dataset (general stuffs)
-'''url = "ne_110m_admin_0_countries.shp"
+html_str_title = (f"<h1 style='text-align: center; color: black;'>Individual Regional Mapper</h1>")
+st.html(html_str_title)
 
-world = gpd.read_file(url)'''
+html_str_subtitle = (f"<h5 style='text-align: center; color: black;'>Explore the world of maps and visualization.</h1>")
+st.html(html_str_subtitle)
 
-st.title('Regional Mapper')
+col1, col2 = st.columns(2)
 
-option = st.selectbox(
-    "Pick a region to visualize.",
-    ("Placeholder", "South America (Default)"),
-)
+with col1:
+    countries = alt.topo_feature(data.world_110m.url, 'countries')
+    print(countries)
 
-if option == 'South America (Default)':
-    st.write('Visualizing South America...')
+with col2:
 
-    '''# Plot the world map
-    world.plot(figsize=(10, 6))
+    option = st.selectbox(
+        "Pick a region to visualize.",
+        ("Placeholder", "South America (Default)"),
+    )
 
-    # Customize the plot (optional)
-    plt.title('World Map')
-    plt.xlabel('Longitude')
-    plt.ylabel('Latitude')
+    if option == 'South America (Default)':
+        st.write('Visualizing South America...')
 
-    # Show the plot
-    plt.show()'''
+        '''# Plot the world map
+        world.plot(figsize=(10, 6))
+
+        # Customize the plot (optional)
+        plt.title('World Map')
+        plt.xlabel('Longitude')
+        plt.ylabel('Latitude')
+
+        # Show the plot
+        plt.show()'''

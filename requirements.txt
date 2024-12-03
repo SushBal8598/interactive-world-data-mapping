@@ -13,3 +13,4 @@ vertexai
 html
 time
 altair
+vega_datasets
