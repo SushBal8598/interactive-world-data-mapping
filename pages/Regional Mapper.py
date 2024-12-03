@@ -389,5 +389,10 @@ with col2:
         
         st.plotly_chart(fig)
         
-html_str_new_plot4 = (f"<h5 style='text-align: center; color: black;'>Compare and plot metrics between countries.</h1>")
+html_str_new_plot4 = (f"<h5 style='text-align: center; color: black;'>Summary Statistics</h1>")
 st.html(html_str_new_plot4)
+
+col1, col2, col3, col4 = st.columns(4)
+
+#html_str_new_plot4 = (f"<h5 style='text-align: center; color: black;'>Compare and plot metrics between countries.</h1>")
+#st.html(html_str_new_plot4)
