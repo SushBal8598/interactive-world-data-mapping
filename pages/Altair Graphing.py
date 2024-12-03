@@ -3,6 +3,7 @@ import altair as alt
 import global_variables
 import numpy as np
 import pandas as pd
+from scipy import stats
 
 can_go = False
 
@@ -366,10 +367,60 @@ try:
                                 st.html("<p style='text-align: center; color: black;margin-bottom: -10px;margin-top: -20px;'>Indicator overload! Some data may not be shown.</p>")
 
                         st.html("<h5 style='text-align: center; color: black;margin-bottom: -10px;margin-top: 10px;'>Statistical Summary</h5>")
-                        col1, col2 = st.columns(2)
+                        col1, col2 = st.columns([1.7,1.3])
 
-                        #include indicator units and then general statistical stuff
-    
+                        with col1:
+                                with st.container(height = 250):
+                                        st.dataframe(resulting_frame)
+                        
+                        with col2:
+                                with st.container(height = 250):
+                                        #resulting_frame['Value'] = resulting_frame['Value'].replace({None: 0})
+                                        uniques = list(resulting_frame['Indicator'].unique())
+                                        for i in range(len(uniques)):
+                                                #st.write(uniques[i])
+                                                data_df_edit = resulting_frame[resulting_frame['Indicator'] == str(uniques[i])]
+                                                data_df_edit.dropna(inplace=True)
+                                                eq_edit = stats.linregress(data_df_edit['Year'].to_numpy(), data_df_edit['Value'].to_numpy())
+                                                #st.write(f'Slope: {eq_edit.slope}')
+
+                                                indicator_name = f"<p style='text-align: center; color: black; margin-bottom: -15px;font-weight:bold;'>{'Indicator Name'}</p>"
+                                                st.html(indicator_name)
+
+                                                make_string = f"<p style='text-align: center; color: black;'>{uniques[i]}</p>"
+                                                #indicator name
+                                                st.html(make_string)
+
+                                                slope = f'LoBF, slope:'
+                                                indicator_slope = f"<p style='text-align: center; color: black; margin-bottom: -15px;font-weight:bold;'>{slope}</p>"
+                                                st.html(indicator_slope)
+
+                                                real_slope = f'{eq_edit.slope}'
+                                                make_string = f"<p style='text-align: center; color: black;'>{real_slope}</p>"
+                                                #indicator name
+                                                st.html(make_string)
+
+                                                intercept = f'LoBF, intercept:'
+                                                indicator_intercept = f"<p style='text-align: center; color: black; margin-bottom: -15px;font-weight:bold;'>{intercept}</p>"
+                                                st.html(indicator_intercept)
+
+                                                real_intercept = f'{eq_edit.intercept}'
+                                                make_string = f"<p style='text-align: center; color: black;'>{real_intercept}</p>"
+                                                #indicator name
+                                                st.html(make_string)
+
+                                                r_squared = f'LoBF, r-squared:'
+                                                indicator_slope = f"<p style='text-align: center; color: black; margin-bottom: -15px;font-weight:bold;'>{r_squared}</p>"
+                                                st.html(indicator_slope)
+
+                                                real_r = f'{eq_edit.rvalue ** 2}'
+                                                make_string = f"<p style='text-align: center; color: black;'>{real_r}</p>"
+                                                #indicator name
+                                                st.html(make_string)
+
+                                                st.divider()
+                                        
+
                 else:
                         option_independent = option_independent
 except:
