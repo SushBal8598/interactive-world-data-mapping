@@ -358,8 +358,8 @@ if option != 'Placeholder':
 
     col1 = st.columns(1)[0]
 
-    slider_value = st.slider(label="", 
-            min_value=1960, 
+    _value = st.slider(label="", 
+            min_value=1960, slider
             max_value=2023, 
             value= st.session_state['slider_value'])
 

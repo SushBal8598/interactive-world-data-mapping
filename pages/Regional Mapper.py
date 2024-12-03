@@ -76,15 +76,32 @@ col1, col2 = st.columns(2)
 
 with col1:
      
-     option_sel = st.multiselect(
+    option_sel = st.multiselect(
         "Pick countries to compare or visualize.",
         ('Argentina', 'Bolivia', 'Brazil', 'Chile', 'Colombia', 'Ecuador', 'Guyana', 'Paraguay', 'Peru','Suriname','Uruguay', 'Venezuela'),
     )
      
-     indicator_sel = st.selectbox(
+    indicator_sel = st.selectbox(
         "Pick indicator to visualize.",
         global_variables.all_indicators,
     )
+    
+    slider_value = st.slider(label="", 
+            min_value=1960, 
+            max_value=2023, 
+            value= st.session_state['slider_value'])
+
+    if slider_value == 2023:
+        st.info('Choose a year to generate insights for.')
+
+    if 'slider_value' not in st.session_state:
+        st.session_state['slider_value'] = 2023
+
+    if slider_value != st.session_state['slider_value']:
+        st.session_state['slider_value'] = slider_value
+        st.rerun()
+
+    my_year = str(st.session_state['slider_value'])
     
 with col2:
 
