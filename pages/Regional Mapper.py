@@ -9,6 +9,7 @@ import global_variables
 import pandas as pd
 import plotly
 import plotly.express as px
+from scipy import stats
 
 try:
     st.session_state['slider_value'] = st.session_state['slider_value']
@@ -388,11 +389,52 @@ with col2:
                 title="Data Values",))
         
         st.plotly_chart(fig)
-        
-html_str_new_plot4 = (f"<h5 style='text-align: center; color: black;'>Summary Statistics</h1>")
+
+html_str_new_plot4 = (f"<h5 style='text-align: center; color: black;margin-top:-40px;'>Summary Statistics</h1>")
 st.html(html_str_new_plot4)
 
-col1, col2, col3, col4 = st.columns(4)
+col1, col2, col3, col4= st.columns(4)
+
+with col1: #mean
+    html_str_new_plot5 = (f"<h6 style='text-align: center; color: black;'>Mean:</h6>")
+    st.html(html_str_new_plot5)
+    
+    col1_data_bank = data_df['Data'].to_numpy()
+    mean = col1_data_bank.mean()
+
+    html_str_new_plot5 = (f"<p style='text-align: center; color: black;margin-top:-20px'>{mean:.4f}</p>")
+    st.html(html_str_new_plot5)
+
+with col2: #std
+    html_str_new_plot5 = (f"<h6 style='text-align: center; color: black;'>STD:</h6>")
+    st.html(html_str_new_plot5)
+
+    col2_data_bank = data_df['Data'].to_numpy()
+    std = col2_data_bank.std()
+
+    html_str_new_plot5 = (f"<p style='text-align: center; color: black;margin-top:-20px'>{std:.4f}</p>")
+    st.html(html_str_new_plot5)
+
+with col3: #median
+    html_str_new_plot5 = (f"<h6 style='text-align: center; color: black;'>Median:</h6>")
+    st.html(html_str_new_plot5)
+
+    col4_data_bank = data_df['Data'].to_numpy()
+    med = stats.median_abs_deviation(col4_data_bank)
+
+    html_str_new_plot5 = (f"<p style='text-align: center; color: black;margin-top:-20px'>{med:.4f}</p>")
+    st.html(html_str_new_plot5)
+
+
+with col4: #iqr
+    html_str_new_plot5 = (f"<h6 style='text-align: center; color: black;'>IQR:</h6>")
+    st.html(html_str_new_plot5)
+
+    col5_data_bank = data_df['Data'].to_numpy()
+    iqr = stats.iqr(col5_data_bank)
+
+    html_str_new_plot5 = (f"<p style='text-align: center; color: black;margin-top:-20px'>{iqr:.4f}</p>")
+    st.html(html_str_new_plot5)
 
 #html_str_new_plot4 = (f"<h5 style='text-align: center; color: black;'>Compare and plot metrics between countries.</h1>")
 #st.html(html_str_new_plot4)
