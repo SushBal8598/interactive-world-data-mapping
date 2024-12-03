@@ -7,10 +7,11 @@ import pandas as pd
 can_go = False
 
 try:
+        named_title = (f"<h1 style='text-align: center; color: black; text-decoration: underline;'>{st.session_state.option}</h1>")
+
         indiv_title = (f"<h1 style='text-align: center; color: black;margin-bottom: -50px;'>Individual Visualization:</h1>")
         st.html(indiv_title)
 
-        named_title = (f"<h1 style='text-align: center; color: black; text-decoration: underline;'>{st.session_state.option}</h1>")
         st.html(named_title)
         
         get_option_title = st.session_state.option
