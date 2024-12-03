@@ -97,6 +97,9 @@ col1, col2 = st.columns(2)
 
 with col1:
      
+    placeholder = f"<p style='text-align: center; color: black; margin-bottom: 15px;'>{''}</p>"
+    st.html(placeholder)
+
     option_sel = st.multiselect(
         "Pick countries to compare or visualize.",
         ('Argentina', 'Bolivia', 'Brazil', 'Chile', 'Colombia', 'Ecuador', 'Guyana', 'Paraguay', 'Peru','Suriname','Uruguay', 'Venezuela'),
@@ -107,6 +110,18 @@ with col1:
         global_variables.all_indicators,
     )
     
+    #rfind units
+    unit = 'None'
+
+    if indicator_sel.rfind('(') != -1:
+        unit = indicator_sel[indicator_sel.rfind('(') + 1:-1]
+
+    indicator_unit = f"<p style='text-align: center; color: black; margin-bottom: -15px;font-weight:bold;'>{'Indicator Unit:'}</p>"
+    st.html(indicator_unit)
+
+    indicator_unit_2 = f"<p style='text-align: center; color: black; margin-bottom: -15px;'>{unit}</p>"
+    st.html(indicator_unit_2)
+
     slider_value = st.slider(label="", 
             min_value=1960, 
             max_value=2023,
@@ -130,28 +145,125 @@ with col2:
 
         south_american_countries_selected = []
         for element in option_sel:
-            south_american_countries_selected.append(south_american_countries_dict[element])
+            south_american_countries_selected.append(element)
         
-        # Sample data
-        data = {'country': ['United States', 'Canada', 'Mexico'],
-        'value': [10, 8, 6]}
-        df = pd.DataFrame(data)
+        countries_list = []
+        countries_data = []
 
-        # Create the heatmap
-        fig = px.choropleth(df, 
-                            locations="country", 
+        for country in south_american_countries_selected:
+            if country == 'Argentina':
+                index = global_variables.argentina_dataset.loc[global_variables.argentina_dataset['Indicator Name'] == indicator_sel].index[0]
+                val = global_variables.argentina_dataset.at[index, my_year]
+                if val == '':
+                    val = 0
+                countries_list.append('Argentina')
+                countries_data.append(val)
+            elif country == 'Bolivia':
+                index = global_variables.bolivia_dataset.loc[global_variables.bolivia_dataset['Indicator Name'] == indicator_sel].index[0]
+                val = global_variables.bolivia_dataset.at[index, my_year]
+                if val == '':
+                    val = 0
+                countries_list.append('Bolivia')
+                countries_data.append(val)
+            elif country == 'Brazil':
+                index = global_variables.brazil_dataset.loc[global_variables.brazil_dataset['Indicator Name'] == indicator_sel].index[0]
+                val = global_variables.brazil_dataset.at[index, my_year]
+                if val == '':
+                    val = 0
+                countries_list.append('Brazil')
+                countries_data.append(val)
+            elif country == 'Colombia':
+                index = global_variables.colombia_dataset.loc[global_variables.colombia_dataset['Indicator Name'] == indicator_sel].index[0]
+                val = global_variables.colombia_dataset.at[index, my_year]
+                if val == '':
+                    val = 0
+                countries_list.append('Colombia')
+                countries_data.append(val)
+            elif country == 'Chile':
+                index = global_variables.chile_dataset.loc[global_variables.chile_dataset['Indicator Name'] == indicator_sel].index[0]
+                val = global_variables.chile_dataset.at[index, my_year]
+                if val == '':
+                    val = 0
+                countries_list.append('Chile')
+                countries_data.append(val)
+            elif country == 'Ecuador':
+                index = global_variables.ecuador_dataset.loc[global_variables.ecuador_dataset['Indicator Name'] == indicator_sel].index[0]
+                val = global_variables.ecuador_dataset.at[index, my_year]
+                if val == '':
+                    val = 0
+                countries_list.append('Ecuador')
+                countries_data.append(val)
+            elif country == 'Guyana':
+                index = global_variables.guyana_dataset.loc[global_variables.guyana_dataset['Indicator Name'] == indicator_sel].index[0]
+                val = global_variables.guyana_dataset.at[index, my_year]
+                if val == '':
+                    val = 0
+                countries_list.append('Guyana')
+                countries_data.append(val)
+            elif country == 'Paraguay':
+                index = global_variables.paraguay_dataset.loc[global_variables.paraguay_dataset['Indicator Name'] == indicator_sel].index[0]
+                val = global_variables.paraguay_dataset.at[index, my_year]
+                if val == '':
+                    val = 0
+                countries_list.append('Paraguay')
+                countries_data.append(val)
+            elif country == 'Peru':
+                index = global_variables.peru_dataset.loc[global_variables.peru_dataset['Indicator Name'] == indicator_sel].index[0]
+                val = global_variables.peru_dataset.at[index, my_year]
+                if val == '':
+                    val = 0
+                countries_list.append('Peru')
+                countries_data.append(val)
+            elif country == 'Suriname':
+                index = global_variables.suriname_dataset.loc[global_variables.suriname_dataset['Indicator Name'] == indicator_sel].index[0]
+                val = global_variables.suriname_dataset.at[index, my_year]
+                if val == '':
+                    val = 0
+                countries_list.append('Suriname')
+                countries_data.append(val)
+            elif country == 'Uruguay':
+                index = global_variables.uruguay_dataset.loc[global_variables.uruguay_dataset['Indicator Name'] == indicator_sel].index[0]
+                val = global_variables.uruguay_dataset.at[index, my_year]
+                if val == '':
+                    val = 0
+                countries_list.append('Uruguay')
+                countries_data.append(val)
+            elif country == 'Venezuela':
+                index = global_variables.venezuela_dataset.loc[global_variables.venezuela_dataset['Indicator Name'] == indicator_sel].index[0]
+                val = global_variables.venezuela_dataset.at[index, my_year]
+                if val == '':
+                    val = 0
+                countries_list.append('Venezuela')
+                countries_data.append(float(val))
+        
+        data_df = pd.DataFrame({'Country':countries_list, 'Data':countries_data})
+        data_df['Data'] = data_df['Data'].astype(float)
+
+        fig = px.choropleth(data_df, 
+                            locations="Country", 
                             locationmode="country names",
-                            color="value",
-                            color_continuous_scale="Viridis")
+                            color="Data",
+                            color_continuous_scale="Viridis",
+                            )
 
         fig.update_geos(
-            scope="south america",  # Set the scope to Europe
+            scope="south america",
             showland=True,   # Show land
             landcolor="lightgray",
             showcoastlines=True,
             coastlinecolor="white",
             projection_type="natural earth",
         )
+
+        fig.update_layout(
+            title={
+            'text': "Generated Heatmap: South America",
+            'x': 0.5,
+            'xanchor': 'center'
+            },
+            coloraxis_colorbar=dict(
+                title="Data Values",))
+        
         st.plotly_chart(fig)
 
     else:
@@ -248,12 +360,14 @@ with col2:
                 countries_data.append(float(val))
         
         data_df = pd.DataFrame({'Country':countries_list, 'Data':countries_data})
+        data_df['Data'] = data_df['Data'].astype(float)
 
         fig = px.choropleth(data_df, 
                             locations="Country", 
                             locationmode="country names",
                             color="Data",
-                            color_continuous_scale="Viridis",)
+                            color_continuous_scale="Viridis",
+                            )
 
         fig.update_geos(
             scope="south america",
@@ -269,7 +383,9 @@ with col2:
             'text': "Generated Heatmap: South America",
             'x': 0.5,
             'xanchor': 'center'
-            })
+            },
+            coloraxis_colorbar=dict(
+                title="Data Values",))
         
         st.plotly_chart(fig)
         

@@ -14,3 +14,4 @@ html
 time
 altair
 vega_datasets
+global_variables
