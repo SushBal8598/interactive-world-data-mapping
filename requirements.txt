@@ -17,3 +17,4 @@ vega_datasets
 global_variables
 scipy
 sdv
+statsmodels.tsa.arima.model

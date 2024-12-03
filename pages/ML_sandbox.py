@@ -1,6 +1,7 @@
 import streamlit as st
 import pandas as pd
 import numpy as np
+import sdv
 from sdv.multi_table import HMASynthesizer
 import global_variables
 
@@ -11,6 +12,8 @@ from sklearn.tree import DecisionTreeRegressor
 from sklearn.model_selection import train_test_split
 from sklearn.metrics import mean_squared_error
 from sklearn.neighbors import KernelDensity
+
+from statsmodels.tsa.arima.model import ARIMA
 
 html_str_title = (f"<h1 style='text-align: center; color: black;'>Machine Learning Sandbox</h1>")
 st.html(html_str_title)
