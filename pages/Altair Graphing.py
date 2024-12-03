@@ -377,6 +377,15 @@ try:
                                 with st.container(height = 250):
                                         #resulting_frame['Value'] = resulting_frame['Value'].replace({None: 0})
                                         uniques = list(resulting_frame['Indicator'].unique())
+                                        slopes = []
+                                        intercepts = []
+                                        r_squareds = []
+
+                                        means = []
+                                        stds = []
+                                        medians = []
+                                        inters = []
+
                                         for i in range(len(uniques)):
                                                 #st.write(uniques[i])
                                                 data_df_edit = resulting_frame[resulting_frame['Indicator'] == str(uniques[i])]
@@ -400,6 +409,8 @@ try:
                                                 #indicator name
                                                 st.html(make_string)
 
+                                                slopes.append(eq_edit.slope)
+
                                                 intercept = f'LoBF, intercept:'
                                                 indicator_intercept = f"<p style='text-align: center; color: black; margin-bottom: -15px;font-weight:bold;'>{intercept}</p>"
                                                 st.html(indicator_intercept)
@@ -408,6 +419,8 @@ try:
                                                 make_string = f"<p style='text-align: center; color: black;'>{real_intercept}</p>"
                                                 #indicator name
                                                 st.html(make_string)
+
+                                                intercepts.append(eq_edit.intercept)
 
                                                 r_squared = f'LoBF, r-squared:'
                                                 indicator_slope = f"<p style='text-align: center; color: black; margin-bottom: -15px;font-weight:bold;'>{r_squared}</p>"
@@ -418,8 +431,35 @@ try:
                                                 #indicator name
                                                 st.html(make_string)
 
+                                                r_squareds.append(eq_edit.rvalue ** 2)
+
                                                 st.divider()
-                                        
+
+                                                col1_data_bank = data_df_edit['Value'].to_numpy()
+                                                mean = col1_data_bank.mean()
+                                                means.append(mean)
+                                                std = col1_data_bank.std()
+                                                stds.append(std)
+                                                med = stats.median_abs_deviation(col1_data_bank)
+                                                medians.append(med)
+                                                iqr = stats.iqr(col1_data_bank)
+                                                inters.append(iqr)
+                        
+                        
+                        st.divider()
+                        
+                        stats_df = pd.DataFrame({'Indicator Name':uniques, 'LoBF Slope': slopes, 'LoBF Intercept': intercepts, 'LoBF R-Squared': r_squareds,
+                                                 'Mean': means, 'Standard Deviation': stds, 'Median': medians, 'IQR': inters})
+                        
+                        st.html("<h5 style='text-align: center; color: black;margin-bottom: -10px;margin-top: 10px;'>Statistical Output</h5>")
+                        st.dataframe(stats_df)
+
+                        col1, col2, col3 = st.columns([2, 1, 2])
+
+                        with col2:
+                                if st.button("Back to Main"):
+                                        st.switch_page("streamlit_app.py")
+                                  
 
                 else:
                         option_independent = option_independent
