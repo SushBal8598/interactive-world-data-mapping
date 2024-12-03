@@ -4,6 +4,8 @@ import plotly.express as px
 
 backgroundColor="#FFFFFF"
 
+#World development data, all at your fingertips.
+
 st.set_page_config(page_title="Welcome to IWDM!",
     page_icon="🌐",
 )
