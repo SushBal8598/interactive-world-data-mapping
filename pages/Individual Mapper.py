@@ -189,13 +189,10 @@ if option != 'Placeholder':
                 unsafe_allow_html=True
             )
 
-            # Image URL
             image_url = get_link
 
-            # Caption text
             caption_text = caption_check
 
-            # Display the image and caption
             st.markdown(f'<img src="{image_url}" class="centered-image" style="border: 4px solid black;margin-bottom: 10px;">', unsafe_allow_html=True)
 
             caption_fp = (f'<p style="text-align: center; color:Black;">{caption_text}</p>')
