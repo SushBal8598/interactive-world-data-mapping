@@ -99,7 +99,7 @@ with col3:
 
     st.markdown(f'<img src="{image_url}" class="centered-image" style="border: 4px solid black;margin-bottom: 10px;">', unsafe_allow_html=True)
 
-    print_map_info = f"""<div style="text-align: center;">Explore machine learning projections with synthetic data. Construct and train your own gradient-boosted model, then deploy with predictions.</div>"""
+    print_map_info = f"""<div style="text-align: center;">Explore machine learning projections with synthetic data. Construct and train your own forecasting model, then deploy with predictions.</div>"""
 
     st.markdown(print_map_info, unsafe_allow_html=True)
 
