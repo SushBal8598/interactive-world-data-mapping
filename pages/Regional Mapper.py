@@ -630,3 +630,9 @@ chart = alt.Chart(resulting_frame).mark_line().encode(
     ).interactive()
 
 st.altair_chart(chart, use_container_width = True)
+
+col1, col2, col3, col4, col5 = st.columns(5)
+
+with col3:
+    if st.button("Back to Main"):
+        st.switch_page("streamlit_app.py")
