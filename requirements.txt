@@ -16,3 +16,4 @@ altair
 vega_datasets
 global_variables
 scipy
+sdv
