@@ -10,11 +10,14 @@ import pandas as pd
 import plotly
 import plotly.express as px
 from scipy import stats
+import numpy as np
 
 try:
     st.session_state['slider_value'] = st.session_state['slider_value']
 except:
     st.session_state['slider_value'] = 2023
+
+years = global_variables.years_list
 
 #Initialize the WORLD dataset (general stuffs)
 html_str_title = (f"<h1 style='text-align: center; color: black;'>Regional Mapper</h1>")
@@ -438,3 +441,192 @@ with col4: #iqr
 
 #html_str_new_plot4 = (f"<h5 style='text-align: center; color: black;'>Compare and plot metrics between countries.</h1>")
 #st.html(html_str_new_plot4)
+
+selected_choices = [indicator_sel]
+resulting_values = []
+indicators = []
+resulting_frame = pd.DataFrame()
+if 'Argentina' in countries_list:
+        for element in selected_choices:
+                resulting_values = []
+                indicators = []
+                index = global_variables.argentina_dataset.loc[global_variables.argentina_dataset['Indicator Name'] == element].index[0]
+                for year in years:
+                        val = global_variables.argentina_dataset.at[index, year]
+                        if val == '':
+                                resulting_values.append('N/A')
+                        else:
+                                resulting_values.append(global_variables.argentina_dataset.at[index, year])
+                        indicators.append('Argentina')
+                merge_frame = pd.DataFrame({'Year': years, 'Value': resulting_values, 'Country': indicators})
+                resulting_frame = pd.concat([resulting_frame, merge_frame])
+        
+if 'Bolivia' in countries_list:
+        for element in selected_choices:
+                resulting_values = []
+                indicators = []
+                index = global_variables.bolivia_dataset.loc[global_variables.bolivia_dataset['Indicator Name'] == element].index[0]
+                for year in years:
+                        val = global_variables.bolivia_dataset.at[index, year]
+                        if val == '':
+                                resulting_values.append('N/A')
+                        else:
+                                resulting_values.append(global_variables.bolivia_dataset.at[index, year])
+                        indicators.append('Bolivia')
+                merge_frame = pd.DataFrame({'Year': years, 'Value': resulting_values, 'Country': indicators})
+                resulting_frame = pd.concat([resulting_frame, merge_frame])
+if 'Brazil' in countries_list:
+        for element in selected_choices:
+                resulting_values = []
+                indicators = []
+                index = global_variables.brazil_dataset.loc[global_variables.brazil_dataset['Indicator Name'] == element].index[0]
+                for year in years:
+                        val = global_variables.brazil_dataset.at[index, year]
+                        if val == '':
+                                resulting_values.append('N/A')
+                        else:
+                                resulting_values.append(global_variables.brazil_dataset.at[index, year])
+                        indicators.append('Brazil')
+                merge_frame = pd.DataFrame({'Year': years, 'Value': resulting_values, 'Country': indicators})
+                resulting_frame = pd.concat([resulting_frame, merge_frame])
+if 'Chile' in countries_list:
+        for element in selected_choices:
+                resulting_values = []
+                indicators = []
+                index = global_variables.chile_dataset.loc[global_variables.chile_dataset['Indicator Name'] == element].index[0]
+                for year in years:
+                        val = global_variables.chile_dataset.at[index, year]
+                        if val == '':
+                                resulting_values.append('N/A')
+                        else:
+                                resulting_values.append(global_variables.chile_dataset.at[index, year])
+                        indicators.append('Chile')
+                merge_frame = pd.DataFrame({'Year': years, 'Value': resulting_values, 'Country': indicators})
+                resulting_frame = pd.concat([resulting_frame, merge_frame])
+if 'Colombia' in countries_list:
+        for element in selected_choices:
+                resulting_values = []
+                indicators = []
+                index = global_variables.colombia_dataset.loc[global_variables.colombia_dataset['Indicator Name'] == element].index[0]
+                for year in years:
+                        val = global_variables.colombia_dataset.at[index, year]
+                        if val == '':
+                                resulting_values.append('N/A')
+                        else:
+                                resulting_values.append(global_variables.colombia_dataset.at[index, year])
+                        indicators.append('Colombia')
+                merge_frame = pd.DataFrame({'Year': years, 'Value': resulting_values, 'Country': indicators})
+                resulting_frame = pd.concat([resulting_frame, merge_frame])
+if 'Ecuador' in countries_list:
+        for element in selected_choices:
+                resulting_values = []
+                indicators = []
+                index = global_variables.ecuador_dataset.loc[global_variables.ecuador_dataset['Indicator Name'] == element].index[0]
+                for year in years:
+                        val = global_variables.ecuador_dataset.at[index, year]
+                        if val == '':
+                                resulting_values.append('N/A')
+                        else:
+                                resulting_values.append(global_variables.ecuador_dataset.at[index, year])
+                        indicators.append('Ecuador')
+                merge_frame = pd.DataFrame({'Year': years, 'Value': resulting_values, 'Country': indicators})
+                resulting_frame = pd.concat([resulting_frame, merge_frame])
+if 'Guyana' in countries_list:
+        for element in selected_choices:
+                resulting_values = []
+                indicators = []
+                index = global_variables.guyana_dataset.loc[global_variables.guyana_dataset['Indicator Name'] == element].index[0]
+                for year in years:
+                        val = global_variables.guyana_dataset.at[index, year]
+                        if val == '':
+                                resulting_values.append('N/A')
+                        else:
+                                resulting_values.append(global_variables.guyana_dataset.at[index, year])
+                        indicators.append('Guyana')
+                merge_frame = pd.DataFrame({'Year': years, 'Value': resulting_values, 'Country': indicators})
+                resulting_frame = pd.concat([resulting_frame, merge_frame])
+if 'Paraguay' in countries_list:
+        for element in selected_choices:
+                resulting_values = []
+                indicators = []
+                index = global_variables.paraguay_dataset.loc[global_variables.paraguay_dataset['Indicator Name'] == element].index[0]
+                for year in years:
+                        val = global_variables.paraguay_dataset.at[index, year]
+                        if val == '':
+                                resulting_values.append('N/A')
+                        else:
+                                resulting_values.append(global_variables.paraguay_dataset.at[index, year])
+                        indicators.append('Paraguay')
+                merge_frame = pd.DataFrame({'Year': years, 'Value': resulting_values, 'Country': indicators})
+                resulting_frame = pd.concat([resulting_frame, merge_frame])
+if 'Peru' in countries_list:
+        for element in selected_choices:
+                resulting_values = []
+                indicators = []
+                index = global_variables.peru_dataset.loc[global_variables.peru_dataset['Indicator Name'] == element].index[0]
+                for year in years:
+                        val = global_variables.peru_dataset.at[index, year]
+                        if val == '':
+                                resulting_values.append('N/A')
+                        else:
+                                resulting_values.append(global_variables.peru_dataset.at[index, year])
+                        indicators.append('Peru')
+                merge_frame = pd.DataFrame({'Year': years, 'Value': resulting_values, 'Country': indicators})
+                resulting_frame = pd.concat([resulting_frame, merge_frame])
+if 'Suriname' in countries_list:
+        for element in selected_choices:
+                resulting_values = []
+                indicators = []
+                index = global_variables.suriname_dataset.loc[global_variables.suriname_dataset['Indicator Name'] == element].index[0]
+                for year in years:
+                        val = global_variables.suriname_dataset.at[index, year]
+                        if val == '':
+                                resulting_values.append('N/A')
+                        else:
+                                resulting_values.append(global_variables.suriname_dataset.at[index, year])
+                        indicators.append('Suriname')
+                merge_frame = pd.DataFrame({'Year': years, 'Value': resulting_values, 'Country': indicators})
+                resulting_frame = pd.concat([resulting_frame, merge_frame])
+if 'Uruguay' in countries_list:
+        for element in selected_choices:
+                resulting_values = []
+                indicators = []
+                index = global_variables.uruguay_dataset.loc[global_variables.uruguay_dataset['Indicator Name'] == element].index[0]
+                for year in years:
+                        val = global_variables.uruguay_dataset.at[index, year]
+                        if val == '':
+                                resulting_values.append('N/A')
+                        else:
+                                resulting_values.append(global_variables.uruguay_dataset.at[index, year])
+                        indicators.append('Uruguay')
+                merge_frame = pd.DataFrame({'Year': years, 'Value': resulting_values, 'Country': indicators})
+                resulting_frame = pd.concat([resulting_frame, merge_frame])
+if 'Venezuela' in countries_list:
+        for element in selected_choices:
+                resulting_values = []
+                indicators = []
+                index = global_variables.venezuela_dataset.loc[global_variables.venezuela_dataset['Indicator Name'] == element].index[0]
+                for year in years:
+                        val = global_variables.venezuela_dataset.at[index, year]
+                        if val == '':
+                                resulting_values.append('N/A')
+                        else:
+                                resulting_values.append(global_variables.venezuela_dataset.at[index, year])
+                        indicators.append('Venezuela')
+                merge_frame = pd.DataFrame({'Year': years, 'Value': resulting_values, 'Country': indicators})
+                resulting_frame = pd.concat([resulting_frame, merge_frame])
+
+resulting_frame['Year'] = pd.to_numeric(resulting_frame['Year'], errors='coerce') 
+resulting_frame['Value'] = pd.to_numeric(resulting_frame['Value'], errors='coerce')
+resulting_frame['Country'] = (resulting_frame['Country']).astype(str)
+
+
+#plot data
+chart = alt.Chart(resulting_frame).mark_line().encode(
+    x=alt.X('Year', title='Year', sort='ascending', scale=alt.Scale(domain=[1960, 2023])),
+    y=alt.Y('Value', title='Value', axis=alt.Axis(tickCount=5)),
+    color='Country',
+    tooltip=['Year', 'Value', 'Country']
+    ).interactive()
+
+st.altair_chart(chart, use_container_width = True)
